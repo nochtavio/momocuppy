@@ -1,0 +1,14 @@
+ALIEF
+
+FILES :
+- Controllers: 
+    - api.php
+- Models: 
+    - model_order.php
+- View:
+    - 
+- Frontend:
+    - order/order2.php
+    - email/order.php
+- JS:
+    - order2.js
