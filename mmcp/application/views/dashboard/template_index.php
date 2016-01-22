@@ -55,26 +55,31 @@ if (!$this->session->userdata('admin')) {
         ?>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
-            <li class="<?php
-            if ($page === 'Admin') {
-              echo "active";
-            }
-            ?> ">
-              <a href="<?php echo base_url() ?>dashboard/admin/"><i class="fa fa-fw fa-user"></i> Admin</a>
-            </li>
-            <li class="<?php
-            if ($page === 'Color') {
-              echo "active";
-            }
-            ?> ">
-              <a href="<?php echo base_url() ?>dashboard/color/"><i class="fa fa-fw fa-magic"></i> Color</a>
-            </li>
-            <li class="<?php
-                if ($page === 'Category') {
+            <li>
+              <a href="javascript:;" data-toggle="collapse" data-target="#master"><i class="fa fa-fw fa-user"></i> Master <i class="fa fa-fw fa-caret-down"></i></a>
+              <ul id="master" class="collapse">
+                <li class="<?php
+                if ($page === 'Admin') {
                   echo "active";
                 }
-            ?> ">
-              <a href="<?php echo base_url() ?>dashboard/category/"><i class="fa fa-fw fa-tag"></i> Category</a>
+                ?> ">
+                  <a href="<?php echo base_url() ?>dashboard/admin/"><i class="fa fa-fw fa-angle-right"></i> Admin</a>
+                </li>
+                <li class="<?php
+                if ($page === 'Color') {
+                  echo "active";
+                }
+                ?> ">
+                  <a href="<?php echo base_url() ?>dashboard/color/"><i class="fa fa-fw fa-angle-right"></i> Color</a>
+                </li>
+                <li class="<?php
+                    if ($page === 'Category') {
+                      echo "active";
+                    }
+                ?> ">
+                  <a href="<?php echo base_url() ?>dashboard/category/"><i class="fa fa-fw fa-angle-right"></i> Category</a>
+                </li>
+              </ul>
             </li>
             <li>
               <a href="javascript:;" data-toggle="collapse" data-target="#pages"><i class="fa fa-fw fa-angle-double-down"></i> Pages <i class="fa fa-fw fa-caret-down"></i></a>
@@ -95,13 +100,6 @@ if (!$this->session->userdata('admin')) {
                 </li>
               </ul>
             </li>
-            <li class="<?php
-            if ($page === 'Voucher') {
-              echo "active";
-            }
-            ?> ">
-              <a href="<?php echo base_url() ?>dashboard/voucher/"><i class="fa fa-fw fa-money"></i> Voucher</a>
-            </li>
             <li>
               <a href="javascript:;" data-toggle="collapse" data-target="#products"><i class="fa fa-fw fa-tree"></i> Product <i class="fa fa-fw fa-caret-down"></i></a>
               <ul id="products" class="collapse">
@@ -120,6 +118,13 @@ if (!$this->session->userdata('admin')) {
                   <a href="<?php echo base_url() ?>dashboard/product_redeem/"><i class="fa fa-fw fa-angle-right"></i> Product Redeem</a>
                 </li>
               </ul>
+            </li>
+            <li class="<?php
+            if ($page === 'Voucher') {
+              echo "active";
+            }
+            ?> ">
+              <a href="<?php echo base_url() ?>dashboard/voucher/"><i class="fa fa-fw fa-money"></i> Voucher</a>
             </li>
             <li class="<?php
                 if ($page === 'Payment') {
@@ -158,6 +163,20 @@ if (!$this->session->userdata('admin')) {
                 }
                 ?> ">
                   <a href="<?php echo base_url() ?>dashboard/newsletter/"><i class="fa fa-fw fa-angle-right"></i> Newsletter</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="javascript:;" data-toggle="collapse" data-target="#statistic"><i class="fa fa-fw fa-bar-chart"></i> Statistic <i class="fa fa-fw fa-caret-down"></i></a>
+              <ul id="statistic" class="collapse">
+                <li>
+                  <a href="<?php echo base_url() ?>dashboard/statistic/member/"><i class="fa fa-fw fa-angle-right"></i> Member</a>
+                </li>
+                <li>
+                  <a href="<?php echo base_url() ?>dashboard/statistic/product"><i class="fa fa-fw fa-angle-right"></i> Product</a>
+                </li>
+                <li>
+                  <a href="<?php echo base_url() ?>dashboard/statistic/order"><i class="fa fa-fw fa-angle-right"></i> Order</a>
                 </li>
               </ul>
             </li>

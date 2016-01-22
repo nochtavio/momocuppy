@@ -15,15 +15,15 @@
       </div>
       <div class="form-group">
         <label class="sr-only" for="txt_zip_code">Zip Code</label>
-        <input type="text" class="form-control" id="txt_street_address" placeholder="Zip Code">
+        <input type="text" class="form-control" id="txt_zip_code" placeholder="Zip Code">
       </div>
       <div class="form-group">
         <label class="sr-only" for="txt_country">Country</label>
-        <input type="text" class="form-control" id="txt_street_address" placeholder="Country">
+        <input type="text" class="form-control" id="txt_country" placeholder="Country">
       </div>
       <div class="form-group">
         <label class="sr-only" for="txt_city">City</label>
-        <input type="text" class="form-control" id="txt_street_address" placeholder="City">
+        <input type="text" class="form-control" id="txt_city" placeholder="City">
       </div>
       <div class="form-group">
         <label class="sr-only" for="txt_order_no">Order No</label>
