@@ -16,6 +16,7 @@ function order_history($memberid){
 		m.id_member = ".$db->escape($memberid)."
 	GROUP BY 
 		m.order_no, m.cretime, m.status, m.resi_no , m.discount	, m.shipping_cost
+	ORDER BY m.cretime DESC
 	";
 	$result = $db->get_results($strsql);
 	

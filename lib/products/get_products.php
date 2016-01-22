@@ -30,6 +30,7 @@ function get_products_list($type,$cat,$rowspage,$page){
 		WHERE mp.visible = 1
 		AND mc.type = ".$db->escape($type)."
 		AND mc.id = ".$db->escape($cat)."
+		AND NOW() > IFNULL(mp.publish_date,0)
 		ORDER BY mp.cretime DESC, mp.publish_date DESC
 		LIMIT ".$db->escape($rsfirst).",	".$db->escape($rowspage)."
 	";	
@@ -61,8 +62,9 @@ function get_product_detail($id){
 		$strsql = "
 		SELECT product_name, product_price, product_desc
 		FROM ms_product mp
-		WHERE mp.visible = 1 AND
-		id = ".$db->escape($id)."
+		WHERE mp.visible = 1 
+		AND NOW() > IFNULL(publish_date,0)
+		AND id = ".$db->escape($id)."
 		";
 		$row = $db->get_row($strsql);
 		if($row){

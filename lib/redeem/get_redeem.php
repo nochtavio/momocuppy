@@ -9,7 +9,7 @@ function get_redeemlist(){
 			mr.product_name,
 			mr.product_point
 		FROM ms_product_redeem mr 
-		WHERE mr.visible = 1 AND NOW() > mr.publish_date	
+		WHERE mr.visible = 1 AND NOW() > IFNULL(mr.publish_date,0)	
 	";
 	$result = $db->get_results($strsql);
 	if($result){

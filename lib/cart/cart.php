@@ -10,7 +10,7 @@ function count_cart($email){
 	}	
 	
 	$strsql = "	
-	SELECT IFNULL(COUNT(cart.id),0) * IFNULL(SUM(cart.qty),0) as jumlah FROM ms_cart cart 
+	SELECT IFNULL(SUM(cart.qty),0) as jumlah FROM ms_cart cart 
 	LEFT JOIN dt_product dt on dt.id = cart.id_dt_product
 	WHERE cart.id_member = ".$db->escape($memberid_cart)."
 	";
