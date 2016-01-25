@@ -112,6 +112,7 @@ class model_order extends CI_Model {
           'payment_name' => $payment_name,
           'payment_account' => $payment_account,
           'payment_account_name' => $payment_account_name,
+          'referral' => $referral,
           'courier' => $courier,
           'shipping_cost' => $shipping_cost,
           'order_no' => $order_no,
@@ -155,9 +156,6 @@ class model_order extends CI_Model {
 
         //Calculate Point
         $point = floor($grand_total_before_disc / 50000);
-        if ($point > 0) {
-          $this->calculate_point($id_member, $point);
-        }
 
         //Calculate Referral
         if (!empty($referral)) {
@@ -172,8 +170,6 @@ class model_order extends CI_Model {
             $parent_id_member = $check_referral->row()->id;
             if ($first_time_buyer) {
               $point = $point+5;
-              $this->calculate_point($id_member, 5);
-              $this->calculate_point($parent_id_member, 5);
             }
           }
         }
@@ -182,7 +178,7 @@ class model_order extends CI_Model {
           'order_no' => $order_no,
           'order_detail' => $member_cart->result(),
           'grand_total' => $grand_total,
-          'point' => $point,
+          'point' => ($point > 0) ? $point : 0,
           'payment_name' => $payment_name,
           'payment_account' => $payment_account,
           'payment_account_name' => $payment_account_name
@@ -206,6 +202,71 @@ class model_order extends CI_Model {
   }
 
   function edit_object($id, $status, $resi_no) {
+    //Check Status
+    $filter = array(
+      'id' => $id
+    );
+    $this->db->select('id_member, status, referral');
+    $check_status = $this->db->get_where('ms_order', $filter);
+    $id_member = $check_status->row()->id_member;
+    $referral = $check_status->row()->referral;
+    $point_added = ($check_status->row()->status < 3) ? FALSE : TRUE ;
+    //End Check Status
+    
+    //Check First Time Buyer
+    $first_time_buyer = FALSE;
+    $this->db->select('mo.id_member');
+    $this->db->from('ms_order mo');
+    $this->db->where('mo.id_member', $id_member);
+    $this->db->where('mo.status >', 2);
+
+    $check_first_time_buy = $this->db->get();
+    if ($check_first_time_buy->num_rows() <= 0) {
+      $first_time_buyer = TRUE;
+    }
+    
+    if($point_added && $status < 3){
+      //Revert Point
+      $this->db->where('id_order', $id);
+      $this->db->delete('ms_point');
+      //End Revert Point
+    }else if(!$point_added && $status > 2){
+      //Add Point
+      $detail_order = $this->model_order->get_detail_order($id);
+      if($detail_order->num_rows() > 0){
+        //Calculate Grand Total
+        $grand_total = 0;
+        foreach ($detail_order->result() as $row) {
+          $grand_total += $row->price * $row->qty;
+        }
+        
+        //Calculate Point
+        $point = floor($grand_total / 50000);
+        if ($point > 0) {
+          $this->calculate_point($id_member, $id, $point);
+        }
+      }
+      
+      if (!empty($referral)) {
+        //Check Referral Exist
+        $filter = array(
+          'referral' => $referral
+        );
+        
+        $this->db->select('id');
+        $check_referral = $this->db->get_where('ms_member', $filter);
+        if ($check_referral->num_rows() > 0) {
+          $parent_id_member = $check_referral->row()->id;
+          
+          if ($first_time_buyer) {
+            $this->calculate_point($id_member, $id, 5);
+            $this->calculate_point($parent_id_member, $id, 5);
+          }
+        }
+      }
+      //End Add Point
+    }
+    
     $data = array(
       'status' => $status,
       'resi_no' => $resi_no,
@@ -432,9 +493,10 @@ class model_order extends CI_Model {
     }
   }
 
-  function calculate_point($id_member, $point) {
+  function calculate_point($id_member, $id_order, $point) {
     $filter = array(
       'id_member' => $id_member,
+      'id_order' => $id_order,
       'cretime' => date('Y-m-d')
     );
 
@@ -448,12 +510,14 @@ class model_order extends CI_Model {
       );
 
       $this->db->where('id_member', $id_member);
+      $this->db->where('id_order', $id_order);
       $this->db->where('cretime', date('Y-m-d'));
       $this->db->update('ms_point', $data);
     } else {
       //Add Point
       $data = array(
         'id_member' => $id_member,
+        'id_order' => $id_order,
         'point' => $point,
         'cretime' => date('Y-m-d')
       );

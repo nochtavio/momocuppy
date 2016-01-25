@@ -4,6 +4,10 @@ $dir = "../";
 $css = "main,simplebar,order";
 $js = "simplebar,order3";
 require_once($dir . "core/conn/db.php");
+
+//Maintain Session
+session_start();
+
 require_once($dir."content/header.php");
 ?>  
   
