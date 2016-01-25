@@ -73,7 +73,7 @@ require_once($dir."content/header.php");
 										 break;										 
 										 case 3 : $varstatus = "<strong style=\"color:#85ae95;\">Confirmed</strong><br /><span style=\"color:#85ae95;font-size:12px;width:100%;text-align:center;\">via Bank Transfer</span>";
 										 break;										 
-										 case 4 : $varstatus = "<strong style=\"color:#f9a378;\">On Progress</strong><br /><span style=\"color:#f9a378;font-size:12px;width:100%;text-align:center;\">item is on delivery</span>";
+										 case 4 : $varstatus = "<strong style=\"color:#85ae95;\">Confirmed</strong><br /><span style=\"color:#85ae95;font-size:12px;width:100%;text-align:center;\">via Bank Transfer</span>";
 										 break;										 
 										 case 5 : $varstatus = "<strong style=\"color:#85ae95;\">Confirmed</strong><br /><span style=\"color:#85ae95;font-size:12px;width:100%;text-align:center;\">via Bank Transfer</span>";
 										 break;										 

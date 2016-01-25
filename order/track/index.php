@@ -77,13 +77,11 @@ if(isset($email) && $email!=""){
 						
 						$varmessage = "";
 						switch($status){
-							case 1 : $varmessage = "<h3>Order Received</h3>Waiting for Payment."; break;
-							case 2 : $varmessage = "<h3>Confirmed Payment</h3>please wait while we are checking your data.."; break;
-							case 3 : $varmessage = "<h3>Approved</h3>please wait for your tracking number"; break;
-							case 4 : $varmessage = "<h3>Your order is already shipped!</h3><br />Your Tracking number is <strong>".$resino."</strong>. You can track your order here <a href=\"http://www.jne.co.id\" target=\"_blank\">www.jne.co.id</a>"; break;
-							case 5 : $varmessage = "Your Order was delivered"; break;
-							case 6 : $varmessage = "Your Order has been canceled!"; break;
-							default :  $varmessage = "Order Received. Waiting for Payment.";
+							case 1 : $varmessage = "<h3>Your order still on process.</h3>If you have any question, please contact us <a href=\"mailto:help@momocuppy.com\">help@momocuppy.com</a>"; break;
+							case 2 : $varmessage = "<h3>Your order still on process.</h3>If you have any question, please contact us <a href=\"mailto:help@momocuppy.com\">help@momocuppy.com</a>"; break;
+							case 3 : $varmessage = "<h3>Your order still on process.</h3>If you have any question, please contact us <a href=\"mailto:help@momocuppy.com\">help@momocuppy.com</a>"; break;
+							case 4 : $varmessage = "<h3>Your order is already shipped!</h3>Your Tracking number is <strong>".$resino."</strong>. You can track your order here <a href=\"http://www.jne.co.id\" target=\"_blank\">www.jne.co.id</a>"; break;
+							default : $varmessage = "<h3>Your order still on process.</h3><br />If you have any question, please contact us <a href=\"mailto:help@momocuppy.com\">help@momocuppy.com</a>"; break;
 						}			
 						
 						$_SESSION["trackmsg"]["info"] = $varmessage;

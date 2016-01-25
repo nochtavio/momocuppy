@@ -37,8 +37,8 @@ require_once($dir . "content/header.php");
 
       <div class="submenuorder">
         <ul class="order_menu">
-          <li><a href="#"><span>summary</span></a></li>
-          <li><a class="selected" href="#"><span>shipping address</span></a></li>
+          <li><a href="/order/#maincontent"><span>summary</span></a></li>
+          <li><a class="selected" href="/order/order2.php#maincontent"><span>shipping address</span></a></li>
           <li><a href="#"><span>done</span></a></li>                    
         </ul>
       </div>
@@ -134,7 +134,6 @@ require_once($dir . "content/header.php");
         ?>      
 
         <div class="rowinput">
-          <input type="hidden" id="order_id_member" name="order_id_member" value="2" />
           <input type="hidden" id="order_firstname" name="order_firstname" value="" />
           <input type="hidden" id="order_lastname" name="order_lastname" value="" />
           <input type="hidden" id="order_street_address" name="order_street_address" value="" />

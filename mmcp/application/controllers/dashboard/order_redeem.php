@@ -1,6 +1,6 @@
 <?php
 
-class order extends CI_Controller {
+class order_redeem extends CI_Controller {
 
   function __construct() {
     date_default_timezone_set('Asia/Jakarta');
@@ -11,18 +11,18 @@ class order extends CI_Controller {
 
   function index() {
     //Data
-    $content['page'] = "Order";
+    $content['page'] = "Order Redeem";
     $content['pagesize'] = 10;
 
     //JS
-    $content['js'][0] = 'js/dashboard/private/order.js';
+    $content['js'][0] = 'js/dashboard/private/order_redeem.js';
 
     //Modal
-    $content['modal'][0] = $this->load->view('dashboard/order/modal_edit', '', TRUE);
-    $content['modal'][1] = $this->load->view('dashboard/order/modal_remove', '', TRUE);
-    $content['modal'][2] = $this->load->view('dashboard/order/modal_detail_order', '', TRUE);
+    $content['modal'][0] = $this->load->view('dashboard/order_redeem/modal_edit', '', TRUE);
+    $content['modal'][1] = $this->load->view('dashboard/order_redeem/modal_remove', '', TRUE);
+    $content['modal'][2] = $this->load->view('dashboard/order_redeem/modal_detail_order', '', TRUE);
 
-    $data['content'] = $this->load->view('dashboard/order/index', $content, TRUE);
+    $data['content'] = $this->load->view('dashboard/order_redeem/index', $content, TRUE);
     $this->load->view('dashboard/template_index', $data);
   }
 
@@ -79,7 +79,7 @@ class order extends CI_Controller {
       }
       //End Filter
 
-      $totalrow = $this->model_order->get_object(0, 0, $email, $street_address, $zip_code, $country, $city, $order_no, $resi_no, $status, $order)->num_rows();
+      $totalrow = $this->model_order->get_object(0, 1, $email, $street_address, $zip_code, $country, $city, $order_no, $resi_no, $status, $order)->num_rows();
 
       //Set totalpaging
       $totalpage = ceil($totalrow / $size);
@@ -87,12 +87,13 @@ class order extends CI_Controller {
       //End Set totalpaging
 
       if ($totalrow > 0) {
-        $query = $this->model_order->get_object(0, 0, $email, $street_address, $zip_code, $country, $city, $order_no, $resi_no, $status, $order, $limit, $size)->result();
+        $query = $this->model_order->get_object(0, 1, $email, $street_address, $zip_code, $country, $city, $order_no, $resi_no, $status, $order, $limit, $size)->result();
         $temp = 0;
         foreach ($query as $row) {
           $data['result'] = "s";
 
           $data['id'][$temp] = $row->id;
+          $data['product_name'][$temp] = $row->product_name;
           $data['email'][$temp] = $row->email;
           $data['street_address'][$temp] = $row->street_address;
           $data['zip_code'][$temp] = $row->zip_code;
@@ -148,7 +149,7 @@ class order extends CI_Controller {
       //End Get Post Request
 
       $data['result'] = "s";
-      $this->model_order->edit_object($id, $status, $resi_no);
+      $this->model_order->edit_redeem($id, $status, $resi_no);
 
       echo json_encode($data);
     }
@@ -159,7 +160,7 @@ class order extends CI_Controller {
     $checkadmin = $this->model_admin->check_admin($admin)->num_rows();
     if ($checkadmin > 0) {
       $id = $this->input->post('id', TRUE);
-      $query = $this->model_order->get_object($id)->result();
+      $query = $this->model_order->get_object($id, 1)->result();
       foreach ($query as $row) {
         $data['result'] = "s";
 

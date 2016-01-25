@@ -1414,6 +1414,95 @@ class api extends CI_Controller {
     }
   }
   
+  function new_redeem() {
+    if(!isset($_SESSION)){session_start();}
+    
+    $this->load->model('dashboard/model_order', '', TRUE);
+
+    $result = "r1";
+    $result_message = "Redeem Success";
+
+    //Parameter
+    $id_member = $this->get_id_member();
+    $id_redeem = (isset($_SESSION['id_redeem'])) ? $_SESSION['id_redeem'] : "";
+    $firstname = ($this->input->post('order_firstname', TRUE)) ? $this->input->post('order_firstname', TRUE) : "";
+    $lastname = ($this->input->post('order_lastname', TRUE)) ? $this->input->post('order_lastname', TRUE) : "";
+    $street_address = ($this->input->post('order_street_address', TRUE)) ? $this->input->post('order_street_address', TRUE) : "";
+    $phone = ($this->input->post('order_phone', TRUE)) ? $this->input->post('order_phone', TRUE) : "";
+    $zip_code = ($this->input->post('order_zip_code', TRUE)) ? $this->input->post('order_zip_code', TRUE) : "";
+    $country = ($this->input->post('order_country', TRUE)) ? $this->input->post('order_country', TRUE) : "";
+    $city = ($this->input->post('order_city', TRUE)) ? $this->input->post('order_city', TRUE) : "";
+    //End Parameter
+    
+    //Check Parameter
+    if (!$id_member) {
+      $result = "r2";
+      $result_message = "You must login first!";
+    }
+    
+    if ($id_redeem == "") {
+      $result = "r2";
+      $result_message = "Redeem product is not found!";
+    }
+
+    if ($street_address == "" || $zip_code == "" || $country == "" || $city == "") {
+      $result = "r2";
+      $result_message = "Shipping Address belum dipilih!";
+    }
+
+    //Check Cart
+    if ($this->model_order->get_cart($id_member)->num_rows() <= 0) {
+      $result = "r2";
+      $result_message = "Cart is empty!";
+    }
+    //End Check Parameter
+
+    if ($result == "r1") {
+      $validate_redeem_post = $this->model_order->validate_redeem_post($firstname, $lastname, $street_address, $phone, $zip_code, $country, $city);
+      if($validate_redeem_post){
+        $order = $this->model_order->add_redeem($id_member, $id_redeem, $firstname, $lastname, $street_address, $phone, $zip_code, $country, $city);
+
+        if(!$order['result']){
+          //Set Session Order
+          $session_data = array(
+            'order_error' => $order['result_message']
+          );
+          $this->session->set_userdata($session_data);
+
+          redirect('../redeem/checkout/?redeem_p='.$id_redeem, 'refresh');
+        die();
+        }
+        
+        //Set Session Order
+        $session_data = array(
+          'order_no' => $order['return_order']['order_no']
+        );
+        $this->session->set_userdata($session_data);
+
+        redirect('../redeem/success/#maincontent', 'refresh');
+        die();
+      }else{
+        //Set Session Order
+        $session_data = array(
+          'order_error' => "There was a mismatch data with system. Aborting."
+        );
+        $this->session->set_userdata($session_data);
+
+        redirect('../redeem/checkout/?redeem_p='.$id_redeem, 'refresh');
+        die();
+      }
+    } else {
+      //Set Session Order
+      $session_data = array(
+        'order_error' => $result_message
+      );
+      $this->session->set_userdata($session_data);
+
+      redirect('../redeem/checkout/?redeem_p='.$id_redeem, 'refresh');
+      die();
+    }
+  }
+  
   function get_order_payment() {
     $this->load->model('dashboard/model_order', '', TRUE);
     
@@ -1494,6 +1583,31 @@ class api extends CI_Controller {
     $this->session->unset_userdata('point');
     $this->session->unset_userdata('payment_name');
     $this->session->unset_userdata('payment_account');
+    $this->session->unset_userdata('order_error');
+    $data['result'] = "s";
+    $this->output
+      ->set_content_type('application/json')
+      ->set_output(json_encode($data));
+  }
+  
+  function get_session_redeem() {
+    if ($this->session->userdata('order_no')) {
+      $data['result'] = "r1";
+      $data['order_no'] = $this->session->userdata('order_no');
+      $this->remove_session_redeem();
+    } else if ($this->session->userdata('order_error')) {
+      $data['result'] = "r2";
+      $data['order_error'] = $this->session->userdata('order_error');
+    } else {
+      $data['result'] = "r3";
+    }
+    $this->output
+      ->set_content_type('application/json')
+      ->set_output(json_encode($data));
+  }
+
+  function remove_session_redeem() {
+    $this->session->unset_userdata('order_no');
     $this->session->unset_userdata('order_error');
     $data['result'] = "s";
     $this->output

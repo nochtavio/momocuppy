@@ -51,13 +51,15 @@ if(isset($_GET["redeem_p"]) && is_numeric($_GET["redeem_p"])){
 						if(is_numeric($memberid)){
 							$memberpoint = get_memberpoint($memberid);							
 						}
-						
-
-										
+								
 						if($memberpoint>=0 && is_numeric($memberid)){
+                                                        $info_point = "";
+                                                        if($memberpoint < $detail->product_point){
+                                                          $info_point = "(You don't have enough points)";
+                                                        }
 							$point = $memberpoint;
-							$varpoint = "<span class=\"detail_point\">".$point." Points</span>";		
-							$vartbncheckout = "<a href=\"/redeem/checkout/\" class=\"detail_redeembtn\"><span>redeem now</span></a>";											
+							$varpoint = "<span class=\"detail_point\">".$point." Points</span> <span>".$info_point."</span>";		
+							$vartbncheckout = "<a href=\"/redeem/checkout/?redeem_p=".$idredeem."\" class=\"detail_redeembtn\"><span>redeem now</span></a>";											
 						}else{
 							$varpoint = "<p class=\"logininfo\">You must <a class=\"forcelogin\" href=\"#\" ><strong>LOGIN</strong></a> first to redeem this <strong>ITEM</strong></p>";							
 						}
