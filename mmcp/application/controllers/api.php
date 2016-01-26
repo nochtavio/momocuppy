@@ -232,17 +232,23 @@ class api extends CI_Controller {
     $id_member = $this->get_id_member();
     $order = ($this->input->post('order', TRUE)) ? $this->input->post('order', TRUE) : 1;
     //End Filter
+    
+    if($id_member && $id != 0){
+      $totalrow = $this->model_detail_address->get_object($id, $id_member, "", $order)->num_rows();
 
-    $totalrow = $this->model_detail_address->get_object($id, $id_member, "", $order)->num_rows();
-
-    if ($totalrow > 0) {
-      $query = $this->model_detail_address->get_object($id, $id_member, "", $order)->result();
-      $data['result'] = "s";
-      $data['content'] = $query;
-    } else {
+      if ($totalrow > 0) {
+        $query = $this->model_detail_address->get_object($id, $id_member, "", $order)->result();
+        $data['result'] = "s";
+        $data['content'] = $query;
+      } else {
+        $data['result'] = "f";
+        $data['message'] = "No Address";
+      }
+    }else{
       $data['result'] = "f";
       $data['message'] = "No Address";
     }
+    
     $this->output
       ->set_content_type('application/json')
       ->set_output(json_encode($data));
@@ -264,8 +270,13 @@ class api extends CI_Controller {
     $country = ($this->input->post('country', TRUE)) ? $this->input->post('country', TRUE) : "";
     $city = ($this->input->post('city', TRUE)) ? $this->input->post('city', TRUE) : "";
     //End Parameter
+    
     //Check Error
     $data['message'] = "";
+    if (!$id_member) {
+      $result = "r2";
+      $result_message = "You must login first! ";
+    }
     if ($firstname === "") {
       $result = "r2";
       $result_message = "Firstname must be filled! ";
@@ -319,6 +330,7 @@ class api extends CI_Controller {
     $result_message = "";
 
     //Parameter
+    $id_member = $this->get_id_member();
     $id = ($this->input->post('id', TRUE)) ? $this->input->post('id', TRUE) : "";
     $firstname = ($this->input->post('firstname', TRUE)) ? $this->input->post('firstname', TRUE) : "";
     $lastname = ($this->input->post('lastname', TRUE)) ? $this->input->post('lastname', TRUE) : "";
@@ -328,8 +340,13 @@ class api extends CI_Controller {
     $country = ($this->input->post('country', TRUE)) ? $this->input->post('country', TRUE) : "";
     $city = ($this->input->post('city', TRUE)) ? $this->input->post('city', TRUE) : "";
     //End Parameter
+    
     //Check Error
     $data['message'] = "";
+    if (!$id_member) {
+      $result = "r2";
+      $result_message = "You must login first! ";
+    }
     if ($firstname === "") {
       $result = "r2";
       $result_message = "Firstname must be filled! ";
@@ -382,17 +399,23 @@ class api extends CI_Controller {
   function generate_list_payment() {
     $this->load->model('dashboard/model_payment', '', TRUE);
     $id = ($this->input->post('id', TRUE)) ? $this->input->post('id', TRUE) : 0;
+    
+    if($id > 0){
+      $totalrow = $this->model_payment->get_object($id, "", "", "", 1)->num_rows();
 
-    $totalrow = $this->model_payment->get_object($id, "", "", "", 1)->num_rows();
-
-    if ($totalrow > 0) {
-      $query = $this->model_payment->get_object($id, "", "", "", 1)->result();
-      $data['result'] = "s";
-      $data['content'] = $query;
-    } else {
+      if ($totalrow > 0) {
+        $query = $this->model_payment->get_object($id, "", "", "", 1)->result();
+        $data['result'] = "s";
+        $data['content'] = $query;
+      } else {
+        $data['result'] = "f";
+        $data['message'] = "No Payment";
+      }
+    }else{
       $data['result'] = "f";
       $data['message'] = "No Payment";
     }
+    
     $this->output
       ->set_content_type('application/json')
       ->set_output(json_encode($data));
@@ -904,17 +927,19 @@ class api extends CI_Controller {
     if(!$id_member){
       $result = "r2";
       $result_message = "You must login first!";
+    }else{
+      if ($id_product == "") {
+        $result = "r2";
+        $result_message = "ID Product is empty!";
+      }
+
+      if ($this->model_wishlist->check_wishlist($id_member, $id_product)->num_rows() > 0) {
+        $result = "r2";
+        $result_message = "Product is already on your wishlist!";
+      }
     }
     
-    if ($id_product == "") {
-      $result = "r2";
-      $result_message = "ID Product is empty!";
-    }
-
-    if ($this->model_wishlist->check_wishlist($id_member, $id_product)->num_rows() > 0) {
-      $result = "r2";
-      $result_message = "Product is already on your wishlist!";
-    }
+    
     //End Check Parameter
 
     if ($result == "r1") {
@@ -943,16 +968,16 @@ class api extends CI_Controller {
     if (!$id_member) {
       $result = "r2";
       $result_message = "You must login first!";
-    }
+    }else{
+      $check_wishlist = $this->model_wishlist->check_wishlist($id_member, $id_product);
+      if ($check_wishlist->num_rows() < 0) {
+        $result = "r2";
+        $result_message = "Wishlist data not found!";
+      }
 
-    $check_wishlist = $this->model_wishlist->check_wishlist($id_member, $id_product);
-    if ($check_wishlist->num_rows() < 0) {
-      $result = "r2";
-      $result_message = "Wishlist data not found!";
-    }
-
-    if ($result == "r1") {
-      $this->model_wishlist->remove_object($check_wishlist->row()->id);
+      if ($result == "r1") {
+        $this->model_wishlist->remove_object($check_wishlist->row()->id);
+      }
     }
 
     $data['result'] = $result;
@@ -1287,6 +1312,8 @@ class api extends CI_Controller {
     if (!$id_member) {
       $result = "r2";
       $result_message = "You must login first!";
+      redirect('../order/order2.php#summary', 'refresh');
+      die();
     }
 
     if ($street_address == "" || $zip_code == "" || $country == "" || $city == "") {
@@ -1438,6 +1465,8 @@ class api extends CI_Controller {
     if (!$id_member) {
       $result = "r2";
       $result_message = "You must login first!";
+      redirect('../order/order2.php#summary', 'refresh');
+      die();
     }
     
     if ($id_redeem == "") {
