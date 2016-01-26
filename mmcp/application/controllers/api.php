@@ -233,7 +233,7 @@ class api extends CI_Controller {
     $order = ($this->input->post('order', TRUE)) ? $this->input->post('order', TRUE) : 1;
     //End Filter
     
-    if($id_member && $id != 0){
+    if($id_member){
       $totalrow = $this->model_detail_address->get_object($id, $id_member, "", $order)->num_rows();
 
       if ($totalrow > 0) {

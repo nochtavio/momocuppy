@@ -395,6 +395,16 @@ class model_order extends CI_Model {
     );
     $this->db->insert('dt_order', $data_detail);
     
+    //Calculate Point
+    $this->db->select('mpr.product_point');
+    $this->db->from('ms_product_redeem mpr');
+    $this->db->where('mpr.id', $id_redeem);
+    $get_point = $this->db->get();
+    
+    $point = $get_point->row()->product_point;
+    $this->calculate_point($id_member, $id_order, $point*-1);
+    //End Calculate Point
+    
     $return_order = array(
       'order_no' => $order_no
     );
@@ -430,6 +440,42 @@ class model_order extends CI_Model {
     }
     
     return $valid;
+  }
+  
+  function edit_redeem($id, $status, $resi_no) {
+    //Get Point
+    $this->db->select('mo.status, mo.id_member, mpr.product_point');
+    $this->db->from('ms_order mo');
+    $this->db->join('dt_order dor', 'dor.id_order = mo.id');
+    $this->db->join('ms_product_redeem mpr', 'mpr.id = dor.id_dt_product');
+    $this->db->where('mo.id', $id);
+    $get_point = $this->db->get();
+    
+    $id_member = $get_point->row()->id_member;
+    $point = $get_point->row()->product_point;
+    $point_substracted = ($get_point->row()->status != 6) ? TRUE : FALSE ;
+    //End Get Point
+    
+    if($status == 6){
+      //Revert Point
+      $this->db->where('id_order', $id);
+      $this->db->delete('ms_point');
+      //End Revert Point
+    }else if(!$point_substracted && $status != 6){
+      //Substract Point
+      $this->calculate_point($id_member, $id, $point*-1);
+      //End Substract Point
+    }
+    
+    $data = array(
+      'status' => $status,
+      'resi_no' => $resi_no,
+      'modtime' => date('Y-m-d H:i:s'),
+      'modby' => $this->session->userdata('admin')
+    );
+
+    $this->db->where('id', $id);
+    $this->db->update('ms_order', $data);
   }
   
   function get_detail_order($order_id = 0, $limit = 0, $size = 0) {
@@ -479,44 +525,6 @@ class model_order extends CI_Model {
     }
     
     return $query;
-  }
-  
-  function edit_redeem($id, $status, $resi_no) {
-    //Get Point
-    $filter = array(
-      'id' => $id
-    );
-    $this->db->select('mo.status, mo.id_member, mpr.product_point');
-    $this->db->from('ms_order mo');
-    $this->db->join('dt_order dor', 'dor.id_order = mo.id');
-    $this->db->join('ms_product_redeem mpr', 'mpr.id = dor.id_dt_product');
-    $this->db->where('mo.id', $id);
-    $get_point = $this->db->get();
-    $id_member = $get_point->row()->id_member;
-    $point = $get_point->row()->product_point;
-    $point_added = ($get_point->row()->status < 3) ? FALSE : TRUE ;
-    //End Get Point
-    
-    if($point_added && $status < 3){
-      //Revert Point
-      $this->db->where('id_order', $id);
-      $this->db->delete('ms_point');
-      //End Revert Point
-    }else if(!$point_added && $status > 2){
-      //Add Point
-      $this->calculate_point($id_member, $id, $point*-1);
-      //End Add Point
-    }
-    
-    $data = array(
-      'status' => $status,
-      'resi_no' => $resi_no,
-      'modtime' => date('Y-m-d H:i:s'),
-      'modby' => $this->session->userdata('admin')
-    );
-
-    $this->db->where('id', $id);
-    $this->db->update('ms_order', $data);
   }
 
   function check_order_no($order_no) {

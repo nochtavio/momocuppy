@@ -38,7 +38,7 @@ if(!$rowsum){
 	if(isset($rowsum->shipping_cost) && is_numeric($rowsum->shipping_cost)){
 		$ship = $rowsum->shipping_cost;
 	}		
-	
+	$type = $rowsum->type;
 	$firstname = $rowsum->firstname;
 	$lastname = $rowsum->lastname;	
 	$city = $rowsum->city;		
@@ -102,6 +102,10 @@ if(!$rowsum){
 		"; break;					
 	}
 	
+	if($type == 1){
+		$varinfo = "REDEEMED ITEM";
+	}
+	
 	//validasi track number
 	if($rowsum->status != 6){																														
 		if($rowsum->status != 1){
@@ -147,10 +151,17 @@ if(!$dthistory){
 		if($dthistory){
 			foreach($dthistory as $row){
 				$subtotal = $row->price * $row->qty;
+				
+				if($type == 1){
+					$varimg = order_history_redeem_thumbimg($row->id_product);					
+				}else{
+					$varimg = order_history_thumbimg($row->id_product);				
+				}
+
 				echo "
 				<li>
 					<div class=\"popupimg\">
-						<img src=\"".order_history_thumbimg($row->id_product)."\" width=\"59\" height=\"99\"/>						
+						<img src=\"".$varimg."\" width=\"59\" height=\"99\"/>						
 					</div>
 					<div class=\"popupdesc\">
 						<h3 class=\"titledesc\">".$row->product_name."</h3>
