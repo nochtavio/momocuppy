@@ -1518,12 +1518,17 @@ class api extends CI_Controller {
 //    }
     
     $orderid = ($this->input->post('orderid', TRUE)) ? $this->input->post('orderid', TRUE) : 0;
-    $totalrow = $this->model_order->get_object(0, "", "", "", "", "", $orderid)->num_rows();
-    if ($totalrow > 0) {
-      $query = $this->model_order->get_object(0, "", "", "", "", "", $orderid)->result();
-      $data['result'] = "s";
-      $data['content'] = $query;
-    } else {
+    if($orderid > 0){
+      $totalrow = $this->model_order->get_object(0, "", "", "", "", "", $orderid)->num_rows();
+      if ($totalrow > 0) {
+        $query = $this->model_order->get_object(0, "", "", "", "", "", $orderid)->result();
+        $data['result'] = "s";
+        $data['content'] = $query;
+      } else {
+        $data['result'] = "f";
+        $data['message'] = "ORDER ID is not exist";
+      }
+    }else{
       $data['result'] = "f";
       $data['message'] = "ORDER ID is not exist";
     }
