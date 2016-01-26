@@ -140,12 +140,12 @@ if (!$this->session->userdata('admin')) {
                 ?> ">
               <a href="<?php echo base_url() ?>dashboard/member/"><i class="fa fa-fw fa-users"></i> Member</a>
             </li>
-            <li class="<?php
-                if ($page === 'Order') {
-                  echo "active";
-                }
-                ?> ">
-              <a href="<?php echo base_url() ?>dashboard/order/"><i class="fa fa-fw fa-shopping-cart"></i> Order</a>
+            <li>
+              <a href="javascript:;" data-toggle="collapse" data-target="#order"><i class="fa fa-fw fa-shopping-cart"></i> Order <i class="fa fa-fw fa-caret-down"></i></a>
+              <ul id="order" class="collapse">
+                <li><a href="<?php echo base_url() ?>dashboard/order/"><i class="fa fa-fw fa-angle-right"></i> Order</a></li>
+                <li><a href="<?php echo base_url() ?>dashboard/order_redeem/"><i class="fa fa-fw fa-angle-right"></i> Order Redeem</a></li>
+              </ul>
             </li>
             <li>
               <a href="javascript:;" data-toggle="collapse" data-target="#newsletter"><i class="fa fa-fw fa-angle-double-down"></i> Newsletter <i class="fa fa-fw fa-caret-down"></i></a>

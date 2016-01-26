@@ -45,3 +45,4 @@
 [21-Dec-2015 23:52:58 America/New_York] PHP Parse error:  syntax error, unexpected ';' in /home/k2007810/public_html/mmcp/application/controllers/api.php on line 425
 [21-Dec-2015 23:52:58 America/New_York] PHP Parse error:  syntax error, unexpected ';' in /home/k2007810/public_html/mmcp/application/controllers/api.php on line 425
 [21-Dec-2015 23:53:00 America/New_York] PHP Parse error:  syntax error, unexpected ';' in /home/k2007810/public_html/mmcp/application/controllers/api.php on line 425
+[15-Jan-2016 20:59:06 Asia/Jakarta] PHP Fatal error:  Call to a member function get_object() on a non-object in /home/k2007810/public_html/mmcp/application/controllers/api.php on line 1419

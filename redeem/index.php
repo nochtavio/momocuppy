@@ -40,7 +40,7 @@ require_once($dir."content/header.php");
 							}else{
 								$thumbimg = "/images/redeem/no-image.jpg";
 							}
-							
+                                                          
 							
 							echo "
 							<li>

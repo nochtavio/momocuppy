@@ -24,7 +24,19 @@ $(document).ready(function() {
 			ajaxContentAdded: function() {
 				// Ajax content is loaded and appended to DOM
 				//console.log(this.content);
-								
+				$("input#phone").on("keypress keyup blur",function (event) {    
+					 $(this).val($(this).val().replace(/[^\d].+/, ""));
+						if ((event.which < 48 || event.which > 57)) {
+								event.preventDefault();
+						}
+				});  	
+				
+				$("input#postalcode").on("keypress keyup blur",function (event) {    
+					 $(this).val($(this).val().replace(/[^\d].+/, ""));
+						if ((event.which < 48 || event.which > 57)) {
+								event.preventDefault();
+						}
+				});  											
 			}
 		}
 	});	

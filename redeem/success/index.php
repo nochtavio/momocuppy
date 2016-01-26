@@ -1,8 +1,13 @@
 <?php 
 $body = "redeem";
-$dir = "../";
+$dir = "../../";
 $css = "main,simplebar,redeem";
-$js = "simplebar";
+$js = "simplebar,order-redeem-success";
+require_once($dir . "core/conn/db.php");
+
+//Maintain Session
+session_start();
+
 require_once($dir."content/header.php");
 ?>  
   
@@ -24,7 +29,7 @@ require_once($dir."content/header.php");
         <h3 class="thanksheader">Your order has been successfully placed!</h3>
         <div class="final_summary">
         	<span class="sum_title">order id</span>
-        	<span class="sum_data">987654321</span>                  	 
+        	<span class="sum_data" id="order_no"></span>                  	 
         </div>
         <div class="row">
           <p>Thank you for redeem this item, <br />your redemption will be processed in our system.</p>

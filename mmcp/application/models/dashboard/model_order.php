@@ -6,11 +6,19 @@ class model_order extends CI_Model {
     parent::__construct();
   }
 
-  function get_object($id = 0, $email = "", $street_address = "", $zip_code = "", $country = "", $city = "", $order_no = "", $resi_no = "", $status = 0, $order = 0, $limit = 0, $size = 0) {
-    $this->db->select('mo.*, mm.email, mv.voucher_name');
+  function get_object($id = 0, $type = 0, $email = "", $street_address = "", $zip_code = "", $country = "", $city = "", $order_no = "", $resi_no = "", $status = 0, $order = 0, $limit = 0, $size = 0) {
+    if($type == 1){
+      $this->db->select('mo.*, mm.email, mv.voucher_name, mpr.product_name');
+    }else{
+      $this->db->select('mo.*, mm.email, mv.voucher_name');
+    }
     $this->db->from('ms_order mo');
     $this->db->join('ms_member mm', 'mm.id = mo.id_member');
     $this->db->join('ms_voucher mv', 'mv.voucher_code = mo.voucher_code', 'left');
+    if($type == 1){
+      $this->db->join('dt_order dor', 'dor.id_order = mo.id');
+      $this->db->join('ms_product_redeem mpr', 'mpr.id = dor.id_dt_product');
+    }
 
     //Set Filter
     if ($id > 0) {
@@ -40,7 +48,7 @@ class model_order extends CI_Model {
     if ($status > 0) {
       $this->db->like('mo.status', $status);
     }
-
+    $this->db->where('mo.type', $type);
     $this->db->where('mo.archive', 0);
     //End Set Filter
     //Set Order
@@ -167,7 +175,6 @@ class model_order extends CI_Model {
           $this->db->select('id');
           $check_referral = $this->db->get_where('ms_member', $filter);
           if ($check_referral->num_rows() > 0) {
-            $parent_id_member = $check_referral->row()->id;
             if ($first_time_buyer) {
               $point = $point+5;
             }
@@ -351,26 +358,165 @@ class model_order extends CI_Model {
     return $valid;
   }
   
+  function add_redeem($id_member, $id_redeem, $firstname, $lastname, $street_address, $phone, $zip_code, $country, $city) {
+    $this->db->trans_begin();
+    $order_no = $this->generate_order_no();
+    $return['result'] = true;
+    
+    //Insert Order
+    $data_header = array(
+      'type' => 1,
+      'id_member' => $id_member,
+      'firstname' => $firstname,
+      'lastname' => $lastname,
+      'street_address' => $street_address,
+      'phone' => $phone,
+      'zip_code' => $zip_code,
+      'country' => $country,
+      'city' => $city,
+      'courier' => 'REG',
+      'shipping_cost' => 0,
+      'order_no' => $order_no,
+      'status' => 2,
+      'cretime' => date('Y-m-d H:i:s'),
+      'creby' => 'SYSTEM'
+    );
+
+    $this->db->insert('ms_order', $data_header);
+
+    //Insert Detail Order
+    $id_order = $this->db->insert_id();
+    $data_detail = array(
+      'id_order' => $id_order,
+      'id_dt_product' => $id_redeem,
+      'price' => 0,
+      'qty' => 1,
+      'weight' => 1
+    );
+    $this->db->insert('dt_order', $data_detail);
+    
+    $return_order = array(
+      'order_no' => $order_no
+    );
+
+    if ($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      $return['result'] = false;
+      $return['result_message'] = "Cart is empty";
+    }else{
+      $this->db->trans_commit();
+      $return['return_order'] = $return_order;
+    }
+    
+    return $return;
+  }
+  
+  function validate_redeem_post($firstname, $lastname, $street_address, $phone, $zip_code, $country, $city){
+    $valid = TRUE;
+    //Validate Address
+    $this->db->select('da.*, mc.city_name');
+    $this->db->from('dt_address da');
+    $this->db->join('ms_city mc', 'mc.city_id = da.city');
+    $this->db->where('da.firstname', $firstname);
+    $this->db->where('da.lastname', $lastname);
+    $this->db->where('da.street_address', $street_address);
+    $this->db->where('da.phone', $phone);
+    $this->db->where('da.zip_code', $zip_code);
+    $this->db->where('da.country', $country);
+    $this->db->where('mc.city_name', $city);
+    $query_address = $this->db->get();
+    if($query_address->num_rows() <= 0){
+      $valid = FALSE;
+    }
+    
+    return $valid;
+  }
+  
   function get_detail_order($order_id = 0, $limit = 0, $size = 0) {
-    $this->db->select('mo.order_no, mp.product_name, mc.color_name, dor.price, dor.qty, mo.discount, mo.shipping_cost');
-    $this->db->from('dt_order dor');
-    $this->db->join('ms_order mo', 'dor.id_order = mo.id');
-    $this->db->join('dt_product dp', 'dor.id_dt_product = dp.id');
-    $this->db->join('ms_product mp', 'dp.id_product = mp.id');
-    $this->db->join('ms_color mc', 'dp.id_color = mc.id');
+    //Check Order Type
+    $this->db->select('mo.type');
+    $this->db->from('ms_order mo');
+    $this->db->where('mo.id', $order_id);
+    $query_order_type = $this->db->get();
+    //End Check Order Type
+    
+    if($query_order_type->row()->type == 0){
+      //Get Detail Order
+      $this->db->select('mo.order_no, mp.product_name, mc.color_name, dor.price, dor.qty, mo.discount, mo.shipping_cost');
+      $this->db->from('dt_order dor');
+      $this->db->join('ms_order mo', 'dor.id_order = mo.id');
+      $this->db->join('dt_product dp', 'dor.id_dt_product = dp.id');
+      $this->db->join('ms_product mp', 'dp.id_product = mp.id');
+      $this->db->join('ms_color mc', 'dp.id_color = mc.id');
 
-    //Set Filter
-    if ($order_id > 0) {
-      $this->db->where('mo.id', $order_id);
+      //Set Filter
+      if ($order_id > 0) {
+        $this->db->where('mo.id', $order_id);
+      }
+      //End Set Filter
+
+      if ($size > 0) {
+        $this->db->limit($size, $limit);
+      }
+      $query = $this->db->get();
+    }else{
+      //Get Detail Redeem
+      $this->db->select('mo.order_no, mpr.*');
+      $this->db->from('dt_order dor');
+      $this->db->join('ms_order mo', 'dor.id_order = mo.id');
+      $this->db->join('ms_product_redeem mpr', 'dor.id_dt_product = mpr.id');
+
+      //Set Filter
+      if ($order_id > 0) {
+        $this->db->where('mo.id', $order_id);
+      }
+      //End Set Filter
+
+      if ($size > 0) {
+        $this->db->limit($size, $limit);
+      }
+      $query = $this->db->get();
     }
-    //End Set Filter
-
-    if ($size > 0) {
-      $this->db->limit($size, $limit);
-    }
-    $query = $this->db->get();
-
+    
     return $query;
+  }
+  
+  function edit_redeem($id, $status, $resi_no) {
+    //Get Point
+    $filter = array(
+      'id' => $id
+    );
+    $this->db->select('mo.status, mo.id_member, mpr.product_point');
+    $this->db->from('ms_order mo');
+    $this->db->join('dt_order dor', 'dor.id_order = mo.id');
+    $this->db->join('ms_product_redeem mpr', 'mpr.id = dor.id_dt_product');
+    $this->db->where('mo.id', $id);
+    $get_point = $this->db->get();
+    $id_member = $get_point->row()->id_member;
+    $point = $get_point->row()->product_point;
+    $point_added = ($get_point->row()->status < 3) ? FALSE : TRUE ;
+    //End Get Point
+    
+    if($point_added && $status < 3){
+      //Revert Point
+      $this->db->where('id_order', $id);
+      $this->db->delete('ms_point');
+      //End Revert Point
+    }else if(!$point_added && $status > 2){
+      //Add Point
+      $this->calculate_point($id_member, $id, $point*-1);
+      //End Add Point
+    }
+    
+    $data = array(
+      'status' => $status,
+      'resi_no' => $resi_no,
+      'modtime' => date('Y-m-d H:i:s'),
+      'modby' => $this->session->userdata('admin')
+    );
+
+    $this->db->where('id', $id);
+    $this->db->update('ms_order', $data);
   }
 
   function check_order_no($order_no) {

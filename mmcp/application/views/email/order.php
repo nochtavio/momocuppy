@@ -555,11 +555,11 @@ $payment_account = (isset($payment_account) ? $payment_account : "" );
                           <tr>
                             <td>
                               <div style="font-family:Arial, Helvetica, sans-serif;font-size:14px;line-height:150%;">
-                                You may now make a bank tranfer to any of the bank account listed below :
+                                You may now make a bank transfer to any of the bank account listed below :
                                 <ul>
                                   <li style="font-weight:bold;"><?php echo $payment_account.' / '.$payment_account_name.' / '.$payment_account; ?></li>
                                 </ul>
-                                Please note that payment has to be made within 48 hours to secure your order.<br />
+                                Please note that payment has to be made within 24 hours to secure your order.<br />
                                 Failure to make payment within the stipulated time-frame will result in cancellation of your order. <br /><br />
                                 After you made payment, kindly apprise us of your transaction details <a href="http://www.momocuppy.com/order/confirm/" style="color:#f16170;">here</a>
                                 <br /><br />

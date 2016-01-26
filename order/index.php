@@ -51,9 +51,9 @@ $_SESSION["order_page"] = "order1";
 
         <ul class="order_menu">
 
-          <li><a class="selected" href="#"><span>summary</span></a></li>
+          <li><a class="selected" href="/order/#maincontent"><span>summary</span></a></li>
 
-          <li><a href="#"><span>shipping address</span></a></li>
+          <li><a href="/order/order2.php#maincontent"><span>shipping address</span></a></li>
 
           <li><a href="#"><span>done</span></a></li>                    
 

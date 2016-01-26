@@ -122,7 +122,7 @@
 
 #cartload .popupsum .row span.titlesum,
 #cartload .popupsum .row span.titlesumtotal{
-	font-size:19px;
+	font-size:17px;
 	width:50%;
 }
 
@@ -131,7 +131,7 @@
 }
 
 #cartload .popupsum .row span.price{
-	font-size:19px;
+	font-size:17px;
 	width:50%;
 }
 

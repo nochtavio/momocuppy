@@ -1,0 +1,4 @@
+[15-Jan-2016 23:22:16 Asia/Jakarta] PHP Notice:  Undefined variable: amount in /home/k2007810/public_html/order/confirm/index.php on line 72
+[16-Jan-2016 01:33:55 Asia/Jakarta] PHP Notice:  Undefined variable: amount in /home/k2007810/public_html/order/confirm/index.php on line 72
+[16-Jan-2016 10:23:40 Asia/Jakarta] PHP Warning:  Unknown column 'sdfdsdfsdfsdfsdfsdfasdfa' in 'field list' in /home/k2007810/public_html/core/conn/mysql.php on line 254
+[20-Jan-2016 10:36:55 Asia/Jakarta] PHP Warning:  Unknown column 'ksjhsgss' in 'where clause' in /home/k2007810/public_html/core/conn/mysql.php on line 254
