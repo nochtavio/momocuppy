@@ -14,9 +14,9 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="txt_addproductredeem" class="col-sm-4 control-label">Product Redeem</label>
+            <label for="txt_addproductpoint" class="col-sm-4 control-label">Product Point</label>
             <div class="col-sm-6">
-              <input type="text" class="form-control" id="txt_addproductredeem" placeholder="Input product redeem ...">
+              <input type="text" class="form-control" id="txt_addproductpoint" placeholder="Input product point ...">
             </div>
           </div>
           <div class="form-group">

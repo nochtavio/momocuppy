@@ -95,7 +95,7 @@ class model_order extends CI_Model {
     if($member_cart->num_rows() > 0){
       //Check Stock
       foreach ($member_cart->result() as $row) {
-        $check_stock = $this->check_stock($id_member, $row->id_dt_product, $row->qty);
+        $check_stock = $this->check_stock($id_member, $row->id_dt_product, $row->qty, TRUE);
         if(!$check_stock){
           $return['result'] = false;
           $return['result_message'] = "One of your item in your cart is out of stock. Therefore, system remove it from your cart.";
@@ -565,18 +565,20 @@ class model_order extends CI_Model {
     return $query;
   }
   
-  function check_stock($id_member, $id_dt_product, $qty){
-    //Get Qty
-    $filter_qty = array(
-      'id_member' => $id_member,
-      'id_dt_product' => $id_dt_product
-    );
+  function check_stock($id_member, $id_dt_product, $qty, $order = FALSE){
+    if(!$order){
+      //Get Qty
+      $filter_cart = array(
+        'id_member' => $id_member,
+        'id_dt_product' => $id_dt_product
+      );
 
-    $this->db->select('qty');
-    $check_product = $this->db->get_where('ms_cart', $filter_qty);
-    
-    if ($check_product->num_rows() > 0) {
-      $qty = $qty + $check_product->row()->qty;
+      $this->db->select('qty');
+      $check_cart = $this->db->get_where('ms_cart', $filter_cart);
+
+      if ($check_cart->num_rows() > 0) {
+        $qty = $qty + $check_cart->row()->qty;
+      }
     }
     
     //Get Stock

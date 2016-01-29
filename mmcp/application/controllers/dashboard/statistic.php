@@ -18,7 +18,7 @@ class statistic extends CI_Controller {
   
   function member() {
     //Data
-    $content['page'] = "Statistic";
+    $content['page'] = "Statistic Member";
     $content['pagesize'] = 10;
 
     //JS
@@ -30,7 +30,7 @@ class statistic extends CI_Controller {
   
   function product() {
     //Data
-    $content['page'] = "Statistic";
+    $content['page'] = "Statistic Product";
     $content['pagesize'] = 10;
 
     //JS
@@ -42,7 +42,7 @@ class statistic extends CI_Controller {
   
   function order() {
     //Data
-    $content['page'] = "Statistic";
+    $content['page'] = "Statistic Order";
     $content['pagesize'] = 10;
 
     //JS
