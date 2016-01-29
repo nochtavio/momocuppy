@@ -222,6 +222,7 @@ if (!$this->session->userdata('admin')) {
     <script type="text/javascript" src="<?php echo base_url() . 'js/dashboard/tinycolor.js'; ?>"></script>
     <script type="text/javascript" src="<?php echo base_url() . 'js/dashboard/pickacolor.js'; ?>"></script>
     <script type="text/javascript" src="<?php echo base_url() . 'js/dashboard/summernote.js'; ?>"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="<?php echo base_url() . 'js/dashboard/private/function.js'; ?>"></script>
 
     <!--JS-->

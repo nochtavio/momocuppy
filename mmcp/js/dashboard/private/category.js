@@ -108,7 +108,7 @@ $(document).ready(function () {
   //Function Add Object
   addObject = function ()
   {
-    var type = $('#txt_addtype').val();
+    var type = $('#sel_addtype').val();
     var category_name = $('#txt_addcategoryname').val();
     var position = $('#txt_addposition').val();
     $.ajax({
