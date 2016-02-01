@@ -211,9 +211,22 @@ class model_product extends CI_Model {
       $this->db->limit($size, $limit);
     }
     $query = $this->db->get();
-//          echo $this->db->last_query();;
-//          die();
     return $query;
+  }
+  
+  function statistic_product($from, $to){
+    $query = "
+      SELECT mp.product_name, COUNT(mp.id) AS total_order
+      FROM dt_order dor
+      JOIN ms_order mo ON mo.id = dor.id_order
+      JOIN dt_product dp ON dp.id = dor.id_dt_product
+      JOIN ms_product mp ON mp.id = dp.id_product
+      WHERE mo.cretime BETWEEN '".date('Y-m-d', strtotime($from))."' AND '".date('Y-m-d', strtotime($to))."'
+      GROUP BY mp.product_name
+      ORDER BY mo.cretime ASC
+      LIMIT 0,10
+    ";
+    return $this->db->query($query);
   }
 
 }

@@ -234,11 +234,6 @@ class model_order extends CI_Model {
     
     if($point_added && $status < 3){
       //Revert Point
-      $this->db->where('id_order', $id);
-      $this->db->delete('ms_point');
-      //End Revert Point
-    }else if(!$point_added && $status > 2){
-      //Add Point
       $detail_order = $this->model_order->get_detail_order($id);
       if($detail_order->num_rows() > 0){
         //Calculate Grand Total
@@ -250,7 +245,7 @@ class model_order extends CI_Model {
         //Calculate Point
         $point = floor($grand_total / 50000);
         if ($point > 0) {
-          $this->calculate_point($id_member, $id, $point);
+          $this->calculate_point($id_member, $point, TRUE);
         }
       }
       
@@ -266,8 +261,43 @@ class model_order extends CI_Model {
           $parent_id_member = $check_referral->row()->id;
           
           if ($first_time_buyer) {
-            $this->calculate_point($id_member, $id, 5);
-            $this->calculate_point($parent_id_member, $id, 5);
+            $this->calculate_point($id_member, 5, TRUE);
+            $this->calculate_point($parent_id_member, 5, TRUE);
+          }
+        }
+      }
+      //End Revert Point
+    }else if(!$point_added && $status > 2){
+      //Add Point
+      $detail_order = $this->model_order->get_detail_order($id);
+      if($detail_order->num_rows() > 0){
+        //Calculate Grand Total
+        $grand_total = 0;
+        foreach ($detail_order->result() as $row) {
+          $grand_total += $row->price * $row->qty;
+        }
+        
+        //Calculate Point
+        $point = floor($grand_total / 50000);
+        if ($point > 0) {
+          $this->calculate_point($id_member, $point);
+        }
+      }
+      
+      if (!empty($referral)) {
+        //Check Referral Exist
+        $filter = array(
+          'referral' => $referral
+        );
+        
+        $this->db->select('id');
+        $check_referral = $this->db->get_where('ms_member', $filter);
+        if ($check_referral->num_rows() > 0) {
+          $parent_id_member = $check_referral->row()->id;
+          
+          if ($first_time_buyer) {
+            $this->calculate_point($id_member, 5);
+            $this->calculate_point($parent_id_member, 5);
           }
         }
       }
@@ -649,10 +679,9 @@ class model_order extends CI_Model {
     }
   }
 
-  function calculate_point($id_member, $id_order, $point) {
+  function calculate_point($id_member, $point, $revert=FALSE) {
     $filter = array(
       'id_member' => $id_member,
-      'id_order' => $id_order,
       'cretime' => date('Y-m-d')
     );
 
@@ -661,19 +690,18 @@ class model_order extends CI_Model {
 
     if ($check_point->num_rows() > 0) {
       //Update Point
+      $updated_point = ($revert) ? $check_point->row()->point - $point : $check_point->row()->point + $point;
       $data = array(
-        'point' => $check_point->row()->point + $point
+        'point' => $updated_point,
+        'cretime' => date('Y-m-d')
       );
 
       $this->db->where('id_member', $id_member);
-      $this->db->where('id_order', $id_order);
-      $this->db->where('cretime', date('Y-m-d'));
       $this->db->update('ms_point', $data);
     } else {
       //Add Point
       $data = array(
         'id_member' => $id_member,
-        'id_order' => $id_order,
         'point' => $point,
         'cretime' => date('Y-m-d')
       );
@@ -681,7 +709,18 @@ class model_order extends CI_Model {
       $this->db->insert('ms_point', $data);
     }
   }
-
+  
+  function statistic_order($from, $to){
+    $query = "
+      SELECT DATE_FORMAT(cretime,'%d %b %y') AS order_date, COUNT(mo.id) AS total_order
+      FROM ms_order mo
+      WHERE mo.status > 2
+      AND cretime BETWEEN '".date('Y-m-d', strtotime($from))."' AND '".date('Y-m-d', strtotime($to))."'
+      GROUP BY order_date
+      ORDER BY cretime ASC
+    ";
+    return $this->db->query($query);
+  }
   //End Addon Function
 }
 

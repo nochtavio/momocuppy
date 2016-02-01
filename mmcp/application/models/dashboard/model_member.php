@@ -232,6 +232,17 @@ class model_member extends CI_Model {
     
     return $generated_password;
   }
+  
+  function statistic_member($from, $to){
+    $query = "
+      SELECT DATE_FORMAT(cretime,'%d %b %y') AS registered_date, COUNT(id) AS total_member
+      FROM ms_member
+      WHERE cretime BETWEEN '".date('Y-m-d', strtotime($from))."' AND '".date('Y-m-d', strtotime($to))."'
+      GROUP BY registered_date
+      ORDER BY cretime ASC
+    ";
+    return $this->db->query($query);
+  }
 
   //End Addon Function
 }

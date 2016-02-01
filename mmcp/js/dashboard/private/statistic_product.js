@@ -7,7 +7,7 @@ $(document).ready(function(){
     var to = $('#txt_date_to').val();
     ajaxLoader();
     $.ajax({
-      url: baseurl + 'dashboard/statistic/statistic_member',
+      url: baseurl + 'dashboard/statistic/statistic_product',
       type: 'POST',
       data:
         {
@@ -20,19 +20,19 @@ $(document).ready(function(){
           $('#curve_chart').show();
           $('#span_error').hide();
           var data = new google.visualization.DataTable();
-          data.addColumn('string', 'Date');
-          data.addColumn('number', 'Member Registered');
+          data.addColumn('string', 'Product Name');
+          data.addColumn('number', 'Product Sold');
           
           for (var x = 0; x < result['total']; x++){
-            data.addRow([result['registered_date'][x], parseInt(result['total_member'][x])]);
+            data.addRow([result['product_name'][x], parseInt(result['total_order'][x])]);
           }
           
           var options = {
-            title: 'Statistic Member',
+            title: 'Statistic Product',
             legend: { position: 'bottom' }
           };
 
-          var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+          var chart = new google.visualization.BarChart(document.getElementById('curve_chart'));
 
           chart.draw(data, options);
         }

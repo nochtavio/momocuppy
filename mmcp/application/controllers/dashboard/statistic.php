@@ -28,6 +28,40 @@ class statistic extends CI_Controller {
     $this->load->view('dashboard/template_index', $data);
   }
   
+  function statistic_member() {
+    $admin = $this->session->userdata('admin');
+    $checkadmin = $this->model_admin->check_admin($admin)->num_rows();
+    if ($checkadmin > 0) {
+      //Filter
+      $from = "";
+      if ($this->input->post('from', TRUE)) {
+        $from = $this->input->post('from', TRUE);
+      }
+      $to = "";
+      if ($this->input->post('to', TRUE)) {
+        $to = $this->input->post('to', TRUE);
+      }
+      //End Filter
+      $get_object = $this->model_member->statistic_member($from, $to);
+
+      if ($get_object->num_rows() > 0) {
+        $temp = 0;
+        foreach ($get_object->result() as $row) {
+          $data['result'] = "s";
+
+          $data['registered_date'][$temp] = $row->registered_date;
+          $data['total_member'][$temp] = $row->total_member;
+          $temp++;
+        }
+        $data['total'] = $temp;
+      } else {
+        $data['result'] = "f";
+        $data['message'] = "No Result";
+      }
+      echo json_encode($data);
+    }
+  }
+  
   function product() {
     //Data
     $content['page'] = "Statistic Product";
@@ -40,6 +74,40 @@ class statistic extends CI_Controller {
     $this->load->view('dashboard/template_index', $data);
   }
   
+  function statistic_product() {
+    $admin = $this->session->userdata('admin');
+    $checkadmin = $this->model_admin->check_admin($admin)->num_rows();
+    if ($checkadmin > 0) {
+      //Filter
+      $from = "";
+      if ($this->input->post('from', TRUE)) {
+        $from = $this->input->post('from', TRUE);
+      }
+      $to = "";
+      if ($this->input->post('to', TRUE)) {
+        $to = $this->input->post('to', TRUE);
+      }
+      //End Filter
+      $get_object = $this->model_product->statistic_product($from, $to);
+
+      if ($get_object->num_rows() > 0) {
+        $temp = 0;
+        foreach ($get_object->result() as $row) {
+          $data['result'] = "s";
+
+          $data['product_name'][$temp] = $row->product_name;
+          $data['total_order'][$temp] = $row->total_order;
+          $temp++;
+        }
+        $data['total'] = $temp;
+      } else {
+        $data['result'] = "f";
+        $data['message'] = "No Result";
+      }
+      echo json_encode($data);
+    }
+  }
+  
   function order() {
     //Data
     $content['page'] = "Statistic Order";
@@ -50,6 +118,40 @@ class statistic extends CI_Controller {
 
     $data['content'] = $this->load->view('dashboard/statistic/order', $content, TRUE);
     $this->load->view('dashboard/template_index', $data);
+  }
+  
+  function statistic_order() {
+    $admin = $this->session->userdata('admin');
+    $checkadmin = $this->model_admin->check_admin($admin)->num_rows();
+    if ($checkadmin > 0) {
+      //Filter
+      $from = "";
+      if ($this->input->post('from', TRUE)) {
+        $from = $this->input->post('from', TRUE);
+      }
+      $to = "";
+      if ($this->input->post('to', TRUE)) {
+        $to = $this->input->post('to', TRUE);
+      }
+      //End Filter
+      $get_object = $this->model_order->statistic_order($from, $to);
+
+      if ($get_object->num_rows() > 0) {
+        $temp = 0;
+        foreach ($get_object->result() as $row) {
+          $data['result'] = "s";
+
+          $data['order_date'][$temp] = $row->order_date;
+          $data['total_order'][$temp] = $row->total_order;
+          $temp++;
+        }
+        $data['total'] = $temp;
+      } else {
+        $data['result'] = "f";
+        $data['message'] = "No Result";
+      }
+      echo json_encode($data);
+    }
   }
 
 }
