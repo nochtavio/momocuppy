@@ -218,6 +218,7 @@ class model_order extends CI_Model {
     $id_member = $check_status->row()->id_member;
     $referral = $check_status->row()->referral;
     $point_added = ($check_status->row()->status < 3) ? FALSE : TRUE ;
+    $stock_substracted = ($check_status->row()->status < 6) ? TRUE : FALSE ;
     //End Check Status
     
     //Check First Time Buyer
@@ -302,6 +303,38 @@ class model_order extends CI_Model {
         }
       }
       //End Add Point
+    }
+    
+    if($stock_substracted && $status == 6){
+      //Return Stock
+      $filter = array(
+        'id_order' => $id
+      );
+      $this->db->select('id_dt_product, qty');
+      $check_order = $this->db->get_where('dt_order', $filter);
+      foreach ($check_order->result() as $row) {
+        $stock = $this->get_stock($row->id_dt_product)->row()->stock + $row->qty;
+        $data = array(
+          'stock' => $stock
+        );
+        $this->db->where('id', $row->id_dt_product);
+        $this->db->update('dt_product', $data);
+      }
+    }else if(!$stock_substracted && $status < 6){
+      //Substract Stock
+      $filter = array(
+        'id_order' => $id
+      );
+      $this->db->select('id_dt_product, qty');
+      $check_order = $this->db->get_where('dt_order', $filter);
+      foreach ($check_order->result() as $row) {
+        $stock = $this->get_stock($row->id_dt_product)->row()->stock - $row->qty;
+        $data = array(
+          'stock' => $stock
+        );
+        $this->db->where('id', $row->id_dt_product);
+        $this->db->update('dt_product', $data);
+      }
     }
     
     $data = array(
@@ -708,6 +741,42 @@ class model_order extends CI_Model {
 
       $this->db->insert('ms_point', $data);
     }
+  }
+  
+  function get_unconfirmed_order(){
+    $filter = array(
+      'paid_date' => NULL
+    );
+
+    $this->db->select('id, status');
+    $query = $this->db->get_where('ms_order', $filter);
+    return $query;
+  }
+  
+  function cancel_order($id_order){
+    //Return Stock
+    $filter = array(
+      'id_order' => $id_order
+    );
+    $this->db->select('id_dt_product, qty');
+    $check_order = $this->db->get_where('dt_order', $filter);
+    foreach ($check_order->result() as $row) {
+      $stock = $this->get_stock($row->id_dt_product)->row()->stock + $row->qty;
+      $data = array(
+        'stock' => $stock
+      );
+      $this->db->where('id', $row->id_dt_product);
+      $this->db->update('dt_product', $data);
+    }
+    
+    $data = array(
+      'status' => 6,
+      'modtime' => date('Y-m-d H:i:s'),
+      'modby' => 'CRON'
+    );
+
+    $this->db->where('id', $id_order);
+    $this->db->update('ms_order', $data);
   }
   
   function statistic_order($from, $to){

@@ -15,7 +15,7 @@ class api extends CI_Controller {
   }
 
   function sendMail() {
-    if(!isset($_SESSION)){session_start();} ;
+    if(!isset($_SESSION)){session_start();}
 
     $name = ($this->input->post('name', TRUE)) ? $this->input->post('name', TRUE) : "";
     $subject = ($this->input->post('subject', TRUE)) ? $this->input->post('subject', TRUE) : "";

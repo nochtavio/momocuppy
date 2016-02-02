@@ -42,15 +42,13 @@ require_once($dir."content/header.php");
         <h3 class="thanksheader">Your order has been successfully placed!</h3>
         <div class="final_summary">
         	<span class="sum_title">order id</span>
-                <span class="sum_data" id="order_no">987654321</span>          
+                <span class="sum_data" id="order_no"></span>          
         	<span class="sum_title">total order</span>
-        	<span class="sum_data" id="grand_total">IDR 261.000</span>                    
+        	<span class="sum_data" id="grand_total"></span>                    
         	<span class="sum_title">total point</span>
-        	<span class="sum_data" id="point">25</span>                    
+        	<span class="sum_data" id="point"></span>                    
         	<span class="sum_title">please transfer your payment to</span>
         	<span class="sum_data" id="payment">
-          	Ryan / 069 020 1283 / BCA <br />
-            Ryan / 157 00 00928573 / MANDIRI
           </span>                    
         </div>
         <div class="row">
