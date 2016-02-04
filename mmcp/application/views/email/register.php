@@ -3,6 +3,7 @@ $name = (isset($name) ? $name : "" );
 $email = (isset($email) ? $email : "" );
 $phone = (isset($phone) ? $phone : "" );
 $hash = (isset($hash) ? $hash : "" );
+$referral = (isset($hash) ? $referral : "" );
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
@@ -432,7 +433,8 @@ $hash = (isset($hash) ? $hash : "" );
                                   <td valign="top" class="dataTableContent" mc:edit="data_table_content00" style="font-weight:normal;line-height:120%;">
                                     <p style="font-size:14px;">Name : <strong><?php echo strtoupper($name) ?></strong></p>
                                     <p style="font-size:14px;">Email Address : <strong><?php echo strtolower($email) ?></strong></p>
-                                    <p style="font-size:14px;">Phone : <strong><?php echo $phone; ?></strong></p>                                                                    
+                                    <p style="font-size:14px;">Phone : <strong><?php echo $phone; ?></strong></p>  
+                                    <p style="font-size:14px;">Referral Code : <strong><?php echo strtoupper($referral); ?></strong></p>  
                                     <br />
                                     <p style="font-size:14px;">Click <a style="color:#eb5763;" href="http://www.momocuppy.com/member/register/activation/success_reg/?email=<?php echo $email ?>&amp;hash=<?php echo $hash; ?>" target="_blank">here</a> to verify your account</p>                                                                    <br />
                                     <p style="font-size:14px;line-height:20px;">If you have any question about your account or any other matter, do not hesitate to contact us at

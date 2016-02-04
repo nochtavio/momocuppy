@@ -68,7 +68,7 @@ $(document).ready(function () {
             <li>Cart is empty</li>\
           ");
         }
-        $('.shopbaglist').simplebar(); 
+        $('.shopbaglist').jScrollPane(); 
       }
     });
   };

@@ -557,7 +557,7 @@ $payment_account = (isset($payment_account) ? $payment_account : "" );
                               <div style="font-family:Arial, Helvetica, sans-serif;font-size:14px;line-height:150%;">
                                 You may now make a bank transfer to any of the bank account listed below :
                                 <ul>
-                                  <li style="font-weight:bold;"><?php echo $payment_account.' / '.$payment_account_name.' / '.$payment_account; ?></li>
+                                  <li style="font-weight:bold;"><?php echo $payment_name.' / '.$payment_account_name.' / '.$payment_account; ?></li>
                                 </ul>
                                 Please note that payment has to be made within 24 hours to secure your order.<br />
                                 Failure to make payment within the stipulated time-frame will result in cancellation of your order. <br /><br />

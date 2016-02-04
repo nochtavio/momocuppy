@@ -607,6 +607,7 @@ class api extends CI_Controller {
       $data_message['email'] = $email;
       $data_message['phone'] = $phone;
       $data_message['hash'] = $hash;
+      $data_message['referral'] = $referral;
       $message = $this->load->view('email/register', $data_message, TRUE);
       $this->email->message($message);
       if ($this->email->send()) {
@@ -656,6 +657,7 @@ class api extends CI_Controller {
         $lastname = $row->lastname;
         $phone = $row->phone;
         $hash = $row->hash;
+        $referral = $row->referral;
       }
       
       //SEND MAIL VERIFICATION
@@ -681,6 +683,7 @@ class api extends CI_Controller {
       $data_message['email'] = $email;
       $data_message['phone'] = $phone;
       $data_message['hash'] = $hash;
+      $data_message['referral'] = $referral;
       $message = $this->load->view('email/register', $data_message, TRUE);
       $this->email->message($message);
       if ($this->email->send()) {
@@ -1397,16 +1400,12 @@ class api extends CI_Controller {
         $this->email->message($message);
         if ($this->email->send()) {
           //Set Session Order
-          $session_data = array(
-            'order_no' => $order['return_order']['order_no'],
-            'grand_total' => $order['return_order']['grand_total'],
-            'point' => $order['return_order']['point'],
-            'payment_name' => $order['return_order']['payment_name'],
-            'payment_account' => $order['return_order']['payment_account'],
-            'payment_account_name' => $order['return_order']['payment_account_name']
-          );
-          $this->session->set_userdata($session_data);
-
+          $_SESSION['order_no'] = $order['return_order']['order_no'];
+          $_SESSION['grand_total'] = $order['return_order']['grand_total'];
+          $_SESSION['point'] = $order['return_order']['point'];
+          $_SESSION['payment_name'] = $order['return_order']['payment_name'];
+          $_SESSION['payment_account'] = $order['return_order']['payment_account'];
+          $_SESSION['payment_account_name'] = $order['return_order']['payment_account_name'];
           redirect('../order/order3.php#summary', 'refresh');
           die();
         } else {
@@ -1497,11 +1496,8 @@ class api extends CI_Controller {
         }
         
         //Set Session Order
-        $session_data = array(
-          'order_no' => $order['return_order']['order_no']
-        );
-        $this->session->set_userdata($session_data);
-
+        $_SESSION['order_no'] = $order['return_order']['order_no'];
+        $_SESSION['redeem_keep'] = TRUE;
         redirect('../redeem/success/#maincontent', 'refresh');
         die();
       }else{

@@ -2,8 +2,8 @@
 
 $body = "order";
 $dir = "../";
-$css = "main,simplebar,order,message";
-$js = "simplebar,order";
+$css = "main,simplebar,order,message,scrollpane";
+$js = "mousewheel,scrollpane,order";
 //Maintain Session
 
 require_once($dir . "core/conn/config.php");

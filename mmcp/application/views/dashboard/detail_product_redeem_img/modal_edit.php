@@ -17,7 +17,7 @@
                 <div class="col-lg-12">
                   <label class="label-no col-xs-12">
                     <input type="file" name="editfile" id="editfile" size="20" style="margin:10px 0 1px 0" />
-                    <em>Only .jpg is allowed (1227x757 pixels)</em> <br/>
+                    <em>Only .png is allowed (1227x757 pixels)</em> <br/>
                   </label>
                 </div>
               </div>
