@@ -1651,4 +1651,28 @@ class api extends CI_Controller {
       ->set_content_type('application/json')
       ->set_output(json_encode($data));
   }
+  
+  function get_object_search() {
+    $this->load->model('dashboard/model_product', '', TRUE);
+
+    //Filter
+    $keyword = ($this->input->post('keyword', TRUE)) ? $this->input->post('keyword', TRUE) : "";
+    //End Filter
+    
+    if($keyword != ""){
+      $get_object_search = $this->model_product->get_object_search($keyword);
+      if($get_object_search->num_rows() > 0){
+        $data['result'] = "s";
+        $data['content'] = $get_object_search->result();
+      }else{
+        $data['result'] = "f";
+      }
+    }else{
+      $data['result'] = "f";
+    }
+    
+    $this->output
+      ->set_content_type('application/json')
+      ->set_output(json_encode($data));
+  }
 }
