@@ -42,7 +42,7 @@ $(document).ready(function () {
           setRemove();
         }
         $('#txt_totalprice').text(format_number(totalprice));
-        $('.shopbaglist').simplebar(); 
+        $('.shopbaglist').jScrollPane(); 
       }
     });
   };

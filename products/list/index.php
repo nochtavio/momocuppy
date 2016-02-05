@@ -2,8 +2,8 @@
   ob_start();
   $body = "product";
   $dir = "../../";
-  $css = "main,product,simplebar,message";
-  $js = "simplebar,zoom.min,product-list";
+  $css = "main,product,simplebar,message,scrollpane";
+  $js = "mousewheel,scrollpane,zoom.min,product-list";
   require_once($dir . "core/conn/config.php");
   require_once($dir . "core/conn/db.php");
   require_once($dir . "lib/products/get_category.php");

@@ -129,7 +129,6 @@ $(document).ready(function () {
               <td class='tdcenter'><span style='font-weight:bold;color:"+status_color+"'>" + result['status'][x] + "</span></td>\
               <td class='tdcenter'>" + detail + "</td>\
               <td class='tdcenter'>\
-                <a id='btn_edit" + result['id'][x] + "' class='fa fa-pencil-square-o'></a> &nbsp;\
                 <a id='btn_archive" + result['id'][x] + "' class='fa fa-archive'></a> &nbsp;\
               </td>\
             </tr>");

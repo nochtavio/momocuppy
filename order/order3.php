@@ -2,12 +2,27 @@
 $body = "order";
 $dir = "../";
 $css = "main,simplebar,order";
-$js = "simplebar,order3";
+$js = "simplebar";
 require_once($dir . "core/conn/db.php");
 
 //Maintain Session
 session_start();
-
+if(!isset($_SESSION['order_no']) || !isset($_SESSION['grand_total'])){
+  header("location:/order/index.php");
+  exit();
+}else{
+  $order_no = $_SESSION['order_no'];
+  $grand_total = $_SESSION['grand_total'];
+  $point = $_SESSION['point'];
+  $payment_name = $_SESSION['payment_name'];
+  $payment_account = $_SESSION['payment_account'];
+  $payment_account_name = $_SESSION['payment_account_name'];
+  unset($_SESSION['grand_total']);
+  unset($_SESSION['point']);
+  unset($_SESSION['payment_name']);
+  unset($_SESSION['payment_account']);
+  unset($_SESSION['payment_account_name']);
+}
 require_once($dir."content/header.php");
 ?>  
   
@@ -42,15 +57,14 @@ require_once($dir."content/header.php");
         <h3 class="thanksheader">Your order has been successfully placed!</h3>
         <div class="final_summary">
         	<span class="sum_title">order id</span>
-                <span class="sum_data" id="order_no">987654321</span>          
+          <span class="sum_data" id="order_no"><?php echo $order_no; ?></span>          
         	<span class="sum_title">total order</span>
-        	<span class="sum_data" id="grand_total">IDR 261.000</span>                    
+        	<span class="sum_data" id="grand_total">IDR <?php echo number_format($grand_total); ?></span>                    
         	<span class="sum_title">total point</span>
-        	<span class="sum_data" id="point">25</span>                    
+        	<span class="sum_data" id="point"><?php echo number_format($point); ?></span>                    
         	<span class="sum_title">please transfer your payment to</span>
         	<span class="sum_data" id="payment">
-          	Ryan / 069 020 1283 / BCA <br />
-            Ryan / 157 00 00928573 / MANDIRI
+            <?php echo $payment_name.' / '.$payment_account_name.' / '.$payment_account; ?>
           </span>                    
         </div>
         <div class="row">

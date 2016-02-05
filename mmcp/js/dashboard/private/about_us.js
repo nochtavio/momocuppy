@@ -84,7 +84,12 @@ $(document).ready(function () {
         ['style', ['bold', 'italic', 'underline']],
         ['font', []],
         ['fontsize', ['fontsize']]
-      ]
+      ],
+    onPaste: function (e) {
+        var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+        e.preventDefault();
+        document.execCommand('insertText', false, bufferText);
+    }
   });
   getObject();
   //End Initial Setup

@@ -2,8 +2,8 @@
   ob_start();
   $body = "product";
   $dir = "../../";
-  $css = "main,product,simplebar,gallery,message";
-  $js = "simplebar,zoom.min,gallery,product-detail";
+  $css = "main,product,simplebar,gallery,message,scrollpane";
+  $js = "mousewheel,scrollpane,zoom.min,gallery,product-detail,redeem";
   require_once($dir . "core/conn/config.php");
   require_once($dir . "core/conn/db.php");
   require_once($dir . "lib/products/get_products.php");
@@ -93,9 +93,9 @@
                     echo "
             <h2 class=\"title\">" . $product_name . "</h2>
             <div class=\"desc\">
-              <p>
-                " . $product_desc . "
-              </p>
+              
+                " . strip_tags($product_desc,"<p><br>") . "
+              
             </div>	
             <span class=\"tagprice\">" . $product_price . "</span>				
             ";
@@ -141,15 +141,29 @@
 
                         </select>  
                     </div>  
+                    
+                    <?php 
+										$email = isset($_SESSION['email']) ? $_SESSION['email'] : "";
+										if($email != ""){
+											$varaddcart = "<a href=\"#addtocart\" id=\"addtocart_prod\">add to cart</a>";
+											$varcheckout = "<a href=\"/order/#maincontent\" id=\"checkout_prod\">check out</a>";
+											$varwish = "<a href=\"#wishlist\" id=\"addtowishlist_prod\">add to wishlist</a>";
+										}else{
+											$varaddcart = "<a href=\"#\" class=\"forcelogin\">add to cart</a>";
+											$varcheckout = "<a href=\"#\" id=\"checkout_prod\" class=\"forcelogin\">check out</a>";
+											$varwish = "<a href=\"#\" class=\"forcelogin\">add to wishlist</a>";											
+										}
+										
+										?>
 
                     <div class="row-form">
                         <div class="wraporder">
-                            <a href="#addtocart" id="addtocart_prod">add to cart</a>
+                            <?php echo $varaddcart;?>
                             <span class="sep">|</span>
-                            <a href="/order/#maincontent" id="checkout_prod">check out</a>
+                            <?php echo $varcheckout;?>
                         </div>
                         <div class="wrapwishlist">
-                            <a href="#wishlist" id="addtowishlist_prod">add to wishlist</a>
+                            <?php echo $varwish;?>
                         </div>
                     </div>                 
                 </form>
