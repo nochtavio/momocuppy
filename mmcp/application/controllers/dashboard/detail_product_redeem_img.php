@@ -134,7 +134,7 @@ class detail_product_redeem_img extends CI_Controller {
           $img = "product_redeem" . $newid . ".jpg";
         }
       } else {
-        $img = "product_redeem1.png";
+        $img = "product_redeem1.jpg";
       }
       
       //Check Directory
