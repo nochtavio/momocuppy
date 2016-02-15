@@ -56,7 +56,7 @@ $(document).ready(function(){
           $.each( result['content'], function( key, value ) {
             $('#shopbaglist').append("\
               <li>\
-                <div class='item'><a href='#' class='cancelprod' id='btn_remove" + value['id'] + "'>X</a> ["+value['color_name']+"]"+value['product_name']+"</div>\
+                <div class='item'><a href='#' class='cancelprod' id='btn_remove" + value['id'] + "'>X</a><span class='title_item'> ["+value['color_name']+"]"+value['product_name']+"</span></div>\
                 <div class='qty'> "+value['qty']+"</div>\
                 <div class='price'> "+format_number(value['product_price'])+"</div>\
               </li>\

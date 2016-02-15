@@ -8,7 +8,6 @@ FILES :
 - View:
     - 
 - Frontend:
-    - order/order2.php
     - email/order.php
 - JS:
-    - order2.js
+    - 

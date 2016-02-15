@@ -2,8 +2,8 @@
   ob_start();
   $body = "product";
   $dir = "../../";
-  $css = "main,product,simplebar,gallery,message,scrollpane";
-  $js = "mousewheel,scrollpane,zoom.min,gallery,product-detail,redeem";
+  $css = "main,product,gallery,message,scrollpane";
+  $js = "mousewheel,scrollpane,gallery,product-detail,redeem";
   require_once($dir . "core/conn/config.php");
   require_once($dir . "core/conn/db.php");
   require_once($dir . "lib/products/get_products.php");
@@ -18,6 +18,11 @@
     $type = $_GET["type"];
   }
 	
+	$stockdetail = get_stock($id_product);
+	if($stockdetail == 0){
+		header("location:/products/list/?type=".$type."");
+		exit;
+	}
 
 	
 ?>  
@@ -40,16 +45,6 @@
 													<div class=\"simpleLens-big-image-container\">
 															<a class=\"simpleLens-lens-image\" img-lens=\"/mmcp/images/products/".$first->img."\">
 																	<img src=\"/mmcp/images/products/".$first->img."\" class=\"simpleLens-big-image\">
-															</a>
-													</div>
-											</div>											
-											";
-										}else{
-											echo "
-											<div class=\"simpleLens-container\">
-													<div class=\"simpleLens-big-image-container\">
-															<a class=\"simpleLens-lens-image\" img-lens=\"/images/products/cth/1l.jpg\">
-																	<img src=\"/images/products/no-img-potrait.jpg\">
 															</a>
 													</div>
 											</div>											
@@ -91,14 +86,14 @@
                     $product_price = "IDR " . number_format($detail->product_price, 0, "", ".");
 
                     echo "
-            <h2 class=\"title\">" . $product_name . "</h2>
-            <div class=\"desc\">
-              
+										<h2 class=\"title\">" . $product_name . "</h2>
+										<div class=\"desc\">
+											
                 " . strip_tags($product_desc,"<p><br>") . "
               
-            </div>	
-            <span class=\"tagprice\">" . $product_price . "</span>				
-            ";
+										</div>	
+										<span class=\"tagprice\">" . $product_price . "</span>				
+										";
                   } else {
                     header("location:/products/?type=" . $type . "");
                     exit;
@@ -214,12 +209,12 @@
             <?php
               $related = get_related($id_product, $type);
               if ($related) {
-                echo "
-          <h2 class=\"prodrelated\">You may also like</h2>
-
-          <div class=\"wraplistitem listitemrelated\">
-            <ul class=\"productitem related_product\">						
-          ";
+												echo "
+									<h2 class=\"prodrelated\">You may also like</h2>
+				
+									<div class=\"wraplistitem listitemrelated\">
+										<ul class=\"productitem related_product\">						
+									";
 
 
                 foreach ($related as $rowrelated) {
@@ -230,18 +225,40 @@
                   if ($diff <= 302400) {
                     $tickernew = "<span class=\"tickernew\"></span>";
                   }
-                  echo "
-          <li>
-            <a class=\"linkproduct\" href=\"/products/detail/?type=" . $rowrelated->type . "&amp;id_product=" . $rowrelated->id . "\">
-            <div class=\"listitem\">
-              <span><img src=\"/mmcp/images/products/" . $rowrelated->img . "\" height=\"312\" width=\"188\"/></span>
-            </div>
-            <span class=\"productname\">" . $rowrelated->product_name . "</span>
-            <span class=\"productprice\">IDR " . number_format($rowrelated->product_price, 0, "", ".") . "</span>            
-            " . $tickernew . "
-            </a>          
-          </li>														
-          ";
+									
+									$stock = get_stock($rowrelated->id);
+									
+									if($stock == 0){
+										echo "
+										<li>
+											<a class=\"linkproduct\" href=\"/products/list/?type=" . $rowrelated->type . "\">
+											<div class=\"listitem\">
+												<span><img src=\"/mmcp/images/products/" . $rowrelated->img . "\"  width=\"188\"/></span>
+												<span class=\"soldout\"><img src=\"/images/products/soldout.png\" /></span>
+											</div>
+											<span class=\"productname\">" . $rowrelated->product_name . "</span>
+											<span class=\"productprice\">IDR " . number_format($rowrelated->product_price, 0, "", ".") . "</span>            
+											" . $tickernew . "
+											</a>          
+										</li>														
+										";										
+									}else{
+									
+										echo "
+										<li>
+											<a class=\"linkproduct\" href=\"/products/detail/?type=" . $rowrelated->type . "&amp;id_product=" . $rowrelated->id . "\">
+											<div class=\"listitem\">
+												<span><img src=\"/mmcp/images/products/" . $rowrelated->img . "\"  width=\"188\"/></span>
+											</div>
+											<span class=\"productname\">" . $rowrelated->product_name . "</span>
+											<span class=\"productprice\">IDR " . number_format($rowrelated->product_price, 0, "", ".") . "</span>            
+											" . $tickernew . "
+											</a>          
+										</li>														
+										";									
+									}
+									
+
                 }
                 echo "</ul></div>						
         ";

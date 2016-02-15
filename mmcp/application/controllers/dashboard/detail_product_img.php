@@ -145,7 +145,7 @@ class detail_product_img extends CI_Controller {
       $file_element_name = 'userfile';
       $config['upload_path'] = './images/products/'.$id_product.'/';
       $config['allowed_types'] = 'png';
-      $config['max_size'] = 1024;
+      $config['max_size'] = 600;
       $config['file_name'] = $img;
       $config['overwrite'] = TRUE;
 
@@ -190,7 +190,7 @@ class detail_product_img extends CI_Controller {
       $file_element_name = 'editfile';
       $config['upload_path'] = './images/products/'.$id_product.'/';
       $config['allowed_types'] = 'png';
-      $config['max_size'] = 1024;
+      $config['max_size'] = 600;
       $config['file_name'] = $img;
       $config['overwrite'] = TRUE;
 

@@ -76,11 +76,16 @@ $rowspage = 9;
 								$idwishlist = $row->id;
 								$product_name = $row->product_name;
 								$product_price = $row->product_price;
+								$product_id = $row->id_product;
 								$product_img = order_history_thumbimg($row->id_product);
+								
+								$product_type = get_product_type($product_id);
+								
+								$varlink = "/products/detail/?type=".$product_type."&id_product=".$product_id."";
 								
 								echo "
 									<li>
-										<a href=\"#\" class=\"linkwishlist\">
+										<a href=\"".$varlink."\" class=\"linkwishlist\">
 											<img src=\"".$product_img."\"  width=\"186\" height=\"258\"/>
 											<span class=\"wishlist_item\">".$product_name."</span>
 											<span class=\"wishlist_price\">IDR " . number_format($product_price, 0, "", ".") . "</span>              

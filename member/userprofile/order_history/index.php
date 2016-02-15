@@ -2,8 +2,8 @@
 ob_flush();
 $dir = "../../../";
 $body = "member";
-$css = "main,simplebar,member,cartload";
-$js = "simplebar,cart-load";
+$css = "main,scrollpane,member,cartload";
+$js = "scrollpane,member,cart-load";
 
 require_once($dir."core/conn/config.php");
 require_once($dir."core/conn/db.php");
@@ -69,7 +69,7 @@ require_once($dir."content/header.php");
 									switch($row->status){
 										 case 1 : $varstatus = "<strong>Waiting for payment</strong>"; //<span class=\"paymentstat\"><strong>Confirmed</strong><br />via Bank Transfer</span> 
 										 break;
-										 case 2 : $varstatus = "<strong style=\"color:#85ae95;\">Confirmed</strong><br /><span style=\"color:#85ae95;font-size:12px;width:100%;text-align:center;\">via Bank Transfer</span>";
+										 case 2 : $varstatus = "<strong style=\"color:#f00;\">Waiting for Confirmation</strong>";
 										 break;										 
 										 case 3 : $varstatus = "<strong style=\"color:#85ae95;\">Confirmed</strong><br /><span style=\"color:#85ae95;font-size:12px;width:100%;text-align:center;\">via Bank Transfer</span>";
 										 break;										 
@@ -84,7 +84,7 @@ require_once($dir."content/header.php");
 									
 									//validasi track number
 									if($row->status != 6){																														
-										if($row->status != 1){
+										if($row->status != 1 && $row->status != 2){
 											$txtnoresi = "<strong>On Progress</strong><br /><span style=\"color:#f9a378;font-size:12px;width:100%;text-align:center;\">preparing items...</span>";
 											if($row->resi_no != ""){
 												$txtnoresi = "<strong style=\"color:#85ae95;\">Delivered</strong><br /><span style=\"color:#85ae95;font-size:12px;width:100%;text-align:center;\">Tracking Number :</span><br /><span style=\"color:#85ae95;font-size:12px;width:100%;text-align:center;\">".$row->resi_no."</span>";

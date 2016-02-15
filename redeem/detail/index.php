@@ -31,7 +31,7 @@ if(isset($_GET["redeem_p"]) && is_numeric($_GET["redeem_p"])){
         <span class="sep">|</span>
         <span>Redeem</span>      
         <span class="sep">|</span>
-        <span>Detail Redeem</span>                 
+        <span>Redeem Details</span>                 
       </div>
       <!--END NAVPAGE-->    
 

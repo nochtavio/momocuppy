@@ -131,7 +131,7 @@ class detail_product_redeem_img extends CI_Controller {
       if ($lastid) {
         foreach ($lastid as $row) {
           $newid = $row->id + 1;
-          $img = "product_redeem" . $newid . ".png";
+          $img = "product_redeem" . $newid . ".jpg";
         }
       } else {
         $img = "product_redeem1.png";
@@ -144,8 +144,8 @@ class detail_product_redeem_img extends CI_Controller {
       
       $file_element_name = 'userfile';
       $config['upload_path'] = './images/products/'.$id_product.'/';
-      $config['allowed_types'] = 'png';
-      $config['max_size'] = 1024;
+      $config['allowed_types'] = 'jpg';
+      $config['max_size'] = 600;
       $config['file_name'] = $img;
       $config['overwrite'] = TRUE;
 
@@ -186,11 +186,11 @@ class detail_product_redeem_img extends CI_Controller {
       $id_product = $this->model_detail_product_img->get_id_product($id)->row()->id_product;
 
       //Upload Image
-      $img = "product_redeem" . $id . ".png";
+      $img = "product_redeem" . $id . ".jpg";
       $file_element_name = 'editfile';
       $config['upload_path'] = './images/products/'.$id_product.'/';
-      $config['allowed_types'] = 'png';
-      $config['max_size'] = 1024;
+      $config['allowed_types'] = 'jpg';
+      $config['max_size'] = 600;
       $config['file_name'] = $img;
       $config['overwrite'] = TRUE;
 

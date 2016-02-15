@@ -9,7 +9,7 @@
   <script type="text/javascript" src="/assets/js/jquery.min.js" ></script>
   <script>
     $(document).ready(function(){
-      var base_url = "http://momocuppy.fe/mmcp/";
+      var base_url = "http://www.momocuppy.com/mmcp/";
       
       var set_price = function () {
         var price = $('#price').val();

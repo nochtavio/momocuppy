@@ -3,7 +3,7 @@
   $body = "product";
   $dir = "../../";
   $css = "main,product,simplebar,message,scrollpane";
-  $js = "mousewheel,scrollpane,zoom.min,product-list";
+  $js = "mousewheel,scrollpane,product-list";
   require_once($dir . "core/conn/config.php");
   require_once($dir . "core/conn/db.php");
   require_once($dir . "lib/products/get_category.php");
@@ -92,19 +92,41 @@
 													}else{
 														$varimg = "/images/products/no-img-potrait.jpg";													
 													}
+													
+													$stock = get_stock($id);
 
-                          echo "
-							<li>
-								<a class=\"linkproduct\" href=\"/products/detail/?type=" . $type . "&amp;id_product=" . $id . "\">
-									<div class=\"listitem\">
-										<span><img src=\"".$varimg."\" height=\"312\" width=\"188\"/></span>
-									</div>
-									<span class=\"productname\">" . $product_name . "</span>
-									<span class=\"productprice\">IDR " . number_format($product_price, 0, "", ".") . "</span>            
-									" . $tickernew . "
-								</a>          
-							</li> 						
-							";
+													if($stock == 0){
+														echo "
+														<li>
+															<a class=\"linkproduct\" href=\"#\">
+																<div class=\"listitem\">
+																	<img src=\"".$varimg."\"  width=\"188\"/>
+																	<span class=\"soldout\"><img src=\"/images/products/soldout.png\" /></span>
+																</div>
+																<span class=\"productname\">" . $product_name . "</span>
+																<span class=\"productprice\">IDR " . number_format($product_price, 0, "", ".") . "</span>            
+																" . $tickernew . "
+															</a>          
+														</li> 						
+														";												
+													}else{
+													
+														echo "
+														<li>
+															<a class=\"linkproduct\" href=\"/products/detail/?type=" . $type . "&amp;id_product=" . $id . "\">
+																<div class=\"listitem\">
+																	<img src=\"".$varimg."\" width=\"188\"/>
+																</div>
+																<span class=\"productname\">" . $product_name . "</span>
+																<span class=\"productprice\">IDR " . number_format($product_price, 0, "", ".") . "</span>            
+																" . $tickernew . "
+															</a>          
+														</li> 						
+														";													
+													
+													}
+
+
                         }
                       } else {
                         echo "No data available right now for this category...";

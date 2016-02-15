@@ -53,4 +53,22 @@ function remove_wishlist($memberid,$wishlistid){
 	}
 	
 }
+
+function get_product_type($idproduct){
+	global $db;
+	
+	
+	$strsql = "
+		SELECT mscat.type FROM ms_category mscat
+		LEFT JOIN dt_category dc ON dc.id_category = mscat.id
+		WHERE dc.id_product = ".$db->escape($idproduct)."
+		GROUP BY mscat.type	
+	";
+	$row = $db->get_row($strsql);
+	if($row){
+		return $row->type;
+	}else{
+		return false;
+	}
+}
 ?>

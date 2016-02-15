@@ -37,16 +37,19 @@ function page($totalpage,$page,$link,$anchor){
 
 
 
+
 	if($totalpage > 1){
-		if(!is_numeric($page) || $page <$totalpage){
+		if(!is_numeric($page) || $page > $totalpage){
 			$intpage = 1;
+		}else{
+			$intpage = $page;
 		}
 
-		
+	
 
 		//first page
 		if($intpage == 1){
-			$varpref = "<li><a href=\"".$link."&amp;p=1".$anchor."\">&laquo; PREV |</a></li>\n";
+			$varpref = "";
 		}else{
 			$countp = $intpage - 1;
 			$varpref = "<li><a href=\"".$link."&amp;p=".$countp.$anchor."\">&laquo; PREV |</a></li>\n";		
@@ -65,6 +68,8 @@ function page($totalpage,$page,$link,$anchor){
 		//last page
 		if($intpage > $totalpage){
 			$varnext = "<li><a href=\"".$link."&amp;p=".$totalpage.$anchor."\">| NEXT &raquo;</a></li>\n";
+		}elseif($intpage == $totalpage){
+			$varnext = "";
 		}else{
 			$countn = $intpage + 1;
 			$varnext = "<li><a href=\"".$link."&amp;p=".$countn.$anchor."\">| NEXT &raquo;</a></li>\n";		

@@ -69,8 +69,10 @@ require_once($dir."content/header.php");
 					//amount
 					if(isset($_POST["amount"]) && $_POST["amount"]!=""){
 						$amount = trim($_POST["amount"]);
-					}elseif(!is_numeric($amount)){
-						$valid = false;
+						
+						if(!is_numeric($amount)){
+							$valid = false;
+						}
 					}else{
 						$valid = false;
 					}							
@@ -86,9 +88,9 @@ require_once($dir."content/header.php");
 						$st = confirm_payment($orderid,$dop,$bankaccname,$amount);
 						if($st){
 							if(isset($email)){
-								$_SESSION["confirmmsg"]["success"] = "Your order has been confirmed, please check your summary <a href=\"/member/userprofile/order_history/#maincontent\">here</a>!";								
+								$_SESSION["confirmmsg"]["success"] = "Thank you! We will check your payment. Please check your summary <a href=\"/member/userprofile/order_history/#maincontent\">here</a>!";								
 							}else{
-								$_SESSION["confirmmsg"]["success"] = "Your order has been confirmed, please check your summary by <strong>LOGIN</strong> to your account!";							
+								$_SESSION["confirmmsg"]["success"] = "Thank you! We will check your payment. Please check your summary by <strong>LOGIN</strong> to your account!";							
 							}
 							header("location:.#maincontent");
 							exit;

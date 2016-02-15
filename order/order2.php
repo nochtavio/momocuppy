@@ -1,8 +1,8 @@
 <?php
 $body = "order";
 $dir = "../";
-$css = "main,simplebar,order,member,popaddress,message";
-$js = "simplebar,popaddress,order2";
+$css = "main,simplebar,order,member,popaddress,message,scrollpane";
+$js = "mousewheel,scrollpane,popaddress,order2";
 require_once($dir . "core/conn/db.php");
 require_once($dir . "lib/order/get_payment.php");
 require_once($dir . "lib/order/get_city.php");

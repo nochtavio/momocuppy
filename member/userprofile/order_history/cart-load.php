@@ -53,8 +53,7 @@ if(!$rowsum){
 		case 1 : $varinfo = "		
 			<strong>-</strong><br />
 		"; break;	
-		case 2 : $varinfo = "		
-			<strong>BUYER CONFIRMED.</strong> <br />
+/*		case 2 : $varinfo = "		
 			<strong>BANK TRANSFER</strong><br />
 			Payment Date : ".date("d M Y",strtotime($rowsum->paid_date))."<br />
 			Acc Name :<br />
@@ -63,7 +62,10 @@ if(!$rowsum){
 			IDR ".number_format($rowsum->paid_nominal,0,"",".")."<br />			
 			Transfer to : <br />
 			".$rowsum->payment_name." - ".$rowsum->payment_account."	
-		"; break;		
+		"; break;		*/
+		case 2 : $varinfo = "		
+			<strong>WAITING FOR CONFIRMATION</strong>
+		"; break;				
 		case 3 : $varinfo = "
 			<strong>BANK TRANSFER</strong><br />
 			Payment Date : ".date("d M Y",strtotime($rowsum->paid_date))."<br />
@@ -108,7 +110,7 @@ if(!$rowsum){
 	
 	//validasi track number
 	if($rowsum->status != 6){																														
-		if($rowsum->status != 1){
+		if($rowsum->status != 1 && $rowsum->status != 2){
 			$txtnoresi = "<strong>PREPARING DELIVERY</strong";
 			if($rowsum->resi_no != ""){
 				$txtnoresi = "<strong>SHIPPED</strong><br />
@@ -116,7 +118,7 @@ if(!$rowsum){
       ".$rowsum->resi_no."";
 			}																					
 		}else{
-			$txtnoresi = "<strong>WAITING FOR PAYMENT</strong>";
+			$txtnoresi = "<strong>-</strong>";
 		}
 	}else{
 		$txtnoresi = "<strong>ORDER CANCELED</strong>";

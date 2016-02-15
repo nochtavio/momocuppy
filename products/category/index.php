@@ -37,8 +37,8 @@ $rowspage = 9;
 				$data = get_category_list($type,$rowspage,$p);
 				
 				$maxpage = 1;
-				if(isset($data["maxpage"])){
-					$maxpage = $data["maxpage"];					
+				if(isset($data["maxPage"])){
+					$maxpage = $data["maxPage"];					
 				}
 				
 				if($data["result"]){

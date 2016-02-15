@@ -117,15 +117,34 @@ ul.productitem{
 			width:100%;
 		}
 		ul.productitem li .listitem{
+
+			box-shadow: 1px 1px 1px #eaeaea;
 			float:left;
 			position:relative;
 			overflow:hidden;
-			height:312px;
+			height:188px;
 			width:188px;
+		}
+		ul.productitem li .listitem img{
+			left: 50%;
+			margin-left: -94px;
+			top: 50%;
+			margin-top: -140px;
+			position:absolute;			
 		}
 		ul.productitem li .listitem span{
 			float:left;
 			width:100%;
+		}
+		ul.productitem li .listitem_nozoom{
+			position:relative;
+		}
+		span.soldout{
+			clear:both;
+			cursor:default;
+			position:absolute;
+			left:0;
+			top:85px;
 		}
 		
 		ul.productitem li span.productname,
@@ -285,14 +304,20 @@ ul.shopbaglist{
 		float:left;
 		margin-right:10px;
 		text-decoration:none;
+		width:3px;
 	}
 	
 	ul.shopbaglist .qty{
 		width:80px;		
 	}	
 	ul.shopbaglist .price{	
-		width:80px;
+		width:100px;
 	}	
+	span.title_item{
+		float:left;
+		line-height:20px;
+		width:100px;
+	}
 	
 	
 /*END SHOPPING BAG*/

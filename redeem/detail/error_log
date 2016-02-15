@@ -1,3 +1,0 @@
-[26-Jan-2016 11:34:12 Asia/Jakarta] PHP Warning:  Cannot load from mysql.proc. The table is probably corrupted in /home/k2007810/public_html/core/conn/mysql.php on line 254
-[26-Jan-2016 11:34:15 Asia/Jakarta] PHP Warning:  Cannot load from mysql.proc. The table is probably corrupted in /home/k2007810/public_html/core/conn/mysql.php on line 254
-[26-Jan-2016 11:34:16 Asia/Jakarta] PHP Warning:  Cannot load from mysql.proc. The table is probably corrupted in /home/k2007810/public_html/core/conn/mysql.php on line 254

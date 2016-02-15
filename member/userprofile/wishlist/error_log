@@ -1,3 +1,1 @@
-[05-Jan-2016 23:03:29 Asia/Jakarta] PHP Notice:  Undefined variable: data in /home/k2007810/public_html/lib/member/wishlist.php on line 36
-[05-Jan-2016 23:03:29 Asia/Jakarta] PHP Notice:  Undefined variable: maxpage in /home/k2007810/public_html/member/userprofile/wishlist/index.php on line 90
-[05-Jan-2016 23:04:23 Asia/Jakarta] PHP Notice:  Undefined variable: maxpage in /home/k2007810/public_html/member/userprofile/wishlist/index.php on line 90
+[01-Feb-2016 22:16:41 Asia/Jakarta] PHP Notice:  Trying to get property of non-object in /home/k2007810/public_html/lib/member/wishlist.php on line 69

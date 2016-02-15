@@ -233,4 +233,18 @@ function get_prodimg_first($idproduct){
 	}		
 }
 
+function get_stock($idproduct){
+	global $db;
+	
+	$strsql = "
+		SELECT SUM(stock) AS jumstock FROM dt_product WHERE id_product = ".$db->escape($idproduct)."
+	";
+	$result = $db->get_row($strsql);	
+	if($result){
+		return $result->jumstock;
+	}else{
+		return false;
+	}			
+}
+
 ?>

@@ -62,7 +62,7 @@ $(document).ready(function () {
             subtotal = parseInt(subtotal) + (parseInt(value['qty']) * parseInt(value['product_price']));
             totalweight = parseFloat(totalweight) + (parseInt(value['qty']) * parseFloat(value['product_weight']));
           });
-          $('.shopbaglist').simplebar(); 
+          $('.shopbaglist').jScrollPane(); 
           calculate();
         } else {
           //Cart is empty

@@ -35,7 +35,7 @@ function order_history_summary($orderno){
 		SELECT 
 			firstname,lastname, street_address,
 			city,country,zip_code,phone,payment_name, paid_date, paid_name,paid_nominal,
-			payment_account,discount,shipping_cost, status, resi_no, type
+			payment_account,payment_account_name,discount,shipping_cost, status, resi_no, type,cretime,id_member
 		FROM ms_order WHERE order_no = '".$db->escape($orderno)."'
 		LIMIT 0,1		
 	";
@@ -76,6 +76,7 @@ function order_history_detail($memberid,$ordercode){
 					id_order = ".$db->escape($orderid)."						
 			";		
 		}
+		
 		$result = $db->get_results($strsql);
 		if($result){
 			 return $result;

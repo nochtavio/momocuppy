@@ -2,7 +2,7 @@
 $body = "order";
 $dir = "../";
 $css = "main,simplebar,order";
-$js = "simplebar";
+$js = "";
 require_once($dir . "core/conn/db.php");
 
 //Maintain Session
@@ -17,12 +17,10 @@ if(!isset($_SESSION['order_no']) || !isset($_SESSION['grand_total'])){
   $payment_name = $_SESSION['payment_name'];
   $payment_account = $_SESSION['payment_account'];
   $payment_account_name = $_SESSION['payment_account_name'];
-  unset($_SESSION['grand_total']);
-  unset($_SESSION['point']);
-  unset($_SESSION['payment_name']);
-  unset($_SESSION['payment_account']);
-  unset($_SESSION['payment_account_name']);
+
 }
+
+$_SESSION["order_page"] = "order3";
 require_once($dir."content/header.php");
 ?>  
   
@@ -80,10 +78,12 @@ require_once($dir."content/header.php");
           <p>
             If you are not receive an email order in 15 minutes,<br />
             please contact <a href="mailto:help@momocuppy.com">help@momocuppy.com</a>
-          </p>
-        	<a href="#" class="btnprint"><img src="/images/layout/order/btnprint.png" /></a>
+          </p>     
+          <a style="margin-top:10px;" href="invoice.php" target="_blank" class="btnprint"><img src="/images/layout/order/btnprint.png" /></a>   	
         </div>
       </div>
+     
+     
       <!--END order-result-->
       
                
@@ -92,7 +92,6 @@ require_once($dir."content/header.php");
   </div>
 </div>
 <!--MAINCONTENT-->  
-  
 <?php 
 require_once($dir."content/footer.php");
 ?>

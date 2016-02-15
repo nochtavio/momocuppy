@@ -17,8 +17,8 @@
 .simpleLens-gallery-container{
 
 	float:left;
-
-	height:600px;		
+/*
+	height:600px;		*/
 
 	position:relative;
 
@@ -34,7 +34,7 @@
 
 		float:left;
 
-		height:600px;		
+/*		height:600px;		*/
 
     position: relative;
 
@@ -48,7 +48,7 @@
 
 .simpleLens-big-image-container {
 
-		height:600px;		
+		/*height:600px;	*/	
 
 		float:left;
 
@@ -66,9 +66,9 @@
 
 .simpleLens-big-image {
 
-    max-width: 100%;
+   width: 370px;
 
-		height:100%;
+		height:auto;
 
 }
 
@@ -78,7 +78,7 @@
 
     width: 370px;
 
-		height:600px;			
+		height:auto;			
 
     display: inline-block;
 
@@ -125,8 +125,7 @@
     background-color: #fde2e7;
 
     box-shadow: 0 0 2px 2px #fde2e7;
-
-    height: 600px;
+		height:100%;
 
     left: 510px;
 
@@ -154,7 +153,7 @@
 
     left:0;
 
-    width:auto !important;
+    width:740px;
 
     max-width:none !important;
 

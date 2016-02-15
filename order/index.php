@@ -10,6 +10,14 @@ require_once($dir . "core/conn/config.php");
 require_once($dir . "core/conn/db.php");
 require_once($dir . "content/header.php");
 
+unset($_SESSION['order_no']);
+unset($_SESSION['grand_total']);
+unset($_SESSION['point']);
+unset($_SESSION['payment_name']);
+unset($_SESSION['payment_account']);
+unset($_SESSION['payment_account_name']);
+unset($_SESSION["order_page"]);
+
 $_SESSION["order_page"] = "order1";
 ?>  
 
@@ -279,12 +287,12 @@ $_SESSION["order_page"] = "order1";
   </p>
   
   <div class="wrapbtn">    
-    <div class="nobtn" id="nobtn">
-      <span>no</span>
-    </div>    
     <div class="yesbtn" id="yesbtn">
       <span>yes</span>
-    </div>      
+    </div>   
+    <div class="nobtn" id="nobtn">
+      <span>no</span>
+    </div>         
   </div>  
 </div>
 

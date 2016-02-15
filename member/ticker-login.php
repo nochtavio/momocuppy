@@ -16,7 +16,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['status_login'])) {
 ?>
 <div id="tickermenu" <?php echo $varclass;?>>
   <form name="search" action="." method="post" id="frmsearch">
-    <input class="inputtxt search" type="text" name="search" placeholder="Search" autocomplete="off"/>
+    <input id="txt_search" class="inputtxt search" type="text" name="search" placeholder="Search" autocomplete="off"/>
     <input class="submitsearch"  type="image" src="/images/layout/icons/magnifier.gif" value="submit_search"/>
   </form>
   <div id="account_info">       
@@ -45,7 +45,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['status_login'])) {
     ?>
   </div>
   <div id="searchresult" <?php echo $varclasssearch;?>>
-  	<ul>
+    <ul id="searchlist">
     	<li>
       	<a href="#">
         	<span class="img"><img src="/mmcp/images/products/product4.jpg" width="45" height="72"/></span>
