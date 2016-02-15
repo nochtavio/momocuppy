@@ -214,6 +214,18 @@ class model_product extends CI_Model {
     return $query;
   }
   
+  function get_object_search($keyword){
+    $this->db->select('mp.id, mp.product_name, mp.product_price, mc.type, (SELECT img FROM dt_product_img dpi WHERE dpi.id_product = mp.id LIMIT 1) AS img');
+    $this->db->from('ms_product mp');
+    $this->db->join('dt_category dc', 'mp.id = dc.id_product');
+    $this->db->join('ms_category mc', 'mc.id = dc.id_category');
+    $this->db->where('mp.visible', 1);
+    $this->db->like('mp.product_name', $keyword);
+    
+    $query = $this->db->get();
+    return $query;
+  }
+  
   function statistic_product($from, $to){
     $query = "
       SELECT mp.product_name, COUNT(mp.id) AS total_order
