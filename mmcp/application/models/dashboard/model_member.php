@@ -171,13 +171,13 @@ class model_member extends CI_Model {
     return $query;
   }
   
-  function check_referral($referral) {
-    $filter = array(
-      'referral' => $referral
-    );
+  function check_referral($id_member, $referral) {
+    $this->db->select('mm.referral');
+    $this->db->from('ms_member mm');
+    $this->db->where('mm.id !=', $id_member);
+    $this->db->where('mm.referral', $referral);
 
-    $this->db->select('referral');
-    $query = $this->db->get_where('ms_member', $filter);
+    $query = $this->db->get();
     return $query;
   }
 

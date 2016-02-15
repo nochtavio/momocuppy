@@ -790,6 +790,16 @@ class model_order extends CI_Model {
     ";
     return $this->db->query($query);
   }
+  
+  function test_cron(){
+    $data = array(
+      'cretime' => date('Y-m-d H:i:s')
+    );
+
+    $this->db->insert('test_cron', $data);
+    
+    return $this->db->last_query();
+  }
   //End Addon Function
 }
 

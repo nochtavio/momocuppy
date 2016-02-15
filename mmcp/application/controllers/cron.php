@@ -1,5 +1,5 @@
 <?php
-
+  
 class cron extends CI_Controller {
     function __construct() {
       date_default_timezone_set('Asia/Jakarta');
@@ -19,5 +19,12 @@ class cron extends CI_Controller {
           }
         }
       }
+    }
+    
+    function test_cron(){
+      $this->load->model('dashboard/model_order', '', TRUE);
+      $test = $this->model_order->test_cron();
+      
+      echo $test;
     }
 }

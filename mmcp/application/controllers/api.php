@@ -1159,7 +1159,7 @@ class api extends CI_Controller {
     }else{
       $query_first_time_buyer = $this->model_member->check_first_time_buyer($id_member)->num_rows();
       if ($query_first_time_buyer <= 0) {
-        $query_referral = $this->model_member->check_referral($referral)->num_rows();
+        $query_referral = $this->model_member->check_referral($id_member, $referral)->num_rows();
         if ($query_referral > 0) {
           $session_data = array(
             'referral' => $referral
