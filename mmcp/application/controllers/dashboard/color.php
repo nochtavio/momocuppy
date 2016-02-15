@@ -99,10 +99,10 @@ class color extends CI_Controller {
         $color_name = $this->input->post('color_name', TRUE);
       }
 
-      $color_code = "";
-      if ($this->input->post('color_code', TRUE)) {
-        $color_code = $this->input->post('color_code', TRUE);
-      }
+//      $color_code = "";
+//      if ($this->input->post('color_code', TRUE)) {
+//        $color_code = $this->input->post('color_code', TRUE);
+//      }
       //End Get Post Request
       //Check Error
       $data['message'] = "";
@@ -111,9 +111,9 @@ class color extends CI_Controller {
         $data['message'] .= "Color name must be filled! <br/>";
       }
 
-      if ($color_code === "") {
-        $data['message'] .= "Color code must be filled! <br/>";
-      }
+//      if ($color_code === "") {
+//        $data['message'] .= "Color code must be filled! <br/>";
+//      }
       //End Check Error
 
       if ($data['message'] === "") {
@@ -137,9 +137,9 @@ class color extends CI_Controller {
       }
 
       $color_code = "";
-      if ($this->input->post('color_code', TRUE)) {
-        $color_code = $this->input->post('color_code', TRUE);
-      }
+//      if ($this->input->post('color_code', TRUE)) {
+//        $color_code = $this->input->post('color_code', TRUE);
+//      }
       //End Get Post Request
 
       $data['result'] = "s";
@@ -165,9 +165,9 @@ class color extends CI_Controller {
       }
 
       $color_code = "";
-      if ($this->input->post('color_code', TRUE)) {
-        $color_code = $this->input->post('color_code', TRUE);
-      }
+//      if ($this->input->post('color_code', TRUE)) {
+//        $color_code = $this->input->post('color_code', TRUE);
+//      }
       //End Get Post Request
 
       $data['result'] = "s";

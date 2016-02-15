@@ -13,12 +13,12 @@
               <input type="text" class="form-control" id="txt_editcolorname" placeholder="Input color name ...">
             </div>
           </div>
-          <div class="form-group">
+<!--          <div class="form-group">
             <label for="txt_editcolorcode" class="col-sm-4 control-label">Color Code</label>
             <div class="col-sm-6">
               <input type="text" class="form-control pick-a-color" id="txt_editcolorcode" placeholder="Input color code ...">
             </div>
-          </div>
+          </div>-->
           <div class="alert alert-warning modal_warning" role="alert"></div>
         </div>
         <div class="modal-footer">

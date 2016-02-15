@@ -42,7 +42,6 @@
           <tr>
             <th>No</th>
             <th>Color Name</th>
-            <th>Color Code</th>
             <th>Detail</th>
             <th>Visible</th>
             <th>Action</th>

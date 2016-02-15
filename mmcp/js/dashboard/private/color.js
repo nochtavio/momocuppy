@@ -63,7 +63,6 @@ $(document).ready(function () {
             <tr>\
               <td class='tdcenter'>" + (parseInt(no) + parseInt(x)) + "</td>\
               <td class='tdcenter'>" + result['color_name'][x] + "</td>\
-              <td class='tdcenter'> <span style='background-color:#" + result['color_code'][x] + "'>&nbsp;&nbsp;&nbsp;&nbsp;</span> " + result['color_code'][x] + "</td>\
               <td class='tdcenter'>" + detail + "</td>\
               <td class='tdcenter'>" + visible + "</td>\
               <td class='tdcenter'>\
