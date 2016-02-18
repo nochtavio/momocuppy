@@ -14,7 +14,7 @@ class cron extends CI_Controller {
       $get_unconfirmed_order = $this->model_order->get_unconfirmed_order();
       if($get_unconfirmed_order->num_rows() > 0){
         foreach ($get_unconfirmed_order->result() as $row) {
-          if($row->status != 6){
+          if($row->status == 1){
             $this->model_order->cancel_order($row->id);
           }
         }

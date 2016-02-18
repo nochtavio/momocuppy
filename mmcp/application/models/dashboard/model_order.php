@@ -754,6 +754,61 @@ class model_order extends CI_Model {
   }
   
   function cancel_order($id_order){
+    $filter = array(
+      'id' => $id_order
+    );
+    $this->db->select('id_member, status, referral');
+    $check_status = $this->db->get_where('ms_order', $filter);
+    $id_member = $check_status->row()->id_member;
+    $referral = $check_status->row()->referral;
+    
+    //Check First Time Buyer
+    $first_time_buyer = FALSE;
+    $this->db->select('mo.id_member');
+    $this->db->from('ms_order mo');
+    $this->db->where('mo.id_member', $id_member);
+    $this->db->where('mo.status >', 2);
+
+    $check_first_time_buy = $this->db->get();
+    if ($check_first_time_buy->num_rows() <= 0) {
+      $first_time_buyer = TRUE;
+    }
+    
+    //Revert Point
+    $detail_order = $this->model_order->get_detail_order($id_order);
+    if($detail_order->num_rows() > 0){
+      //Calculate Grand Total
+      $grand_total = 0;
+      foreach ($detail_order->result() as $row) {
+        $grand_total += $row->price * $row->qty;
+      }
+
+      //Calculate Point
+      $point = floor($grand_total / 50000);
+      if ($point > 0) {
+        $this->calculate_point($id_member, $point, TRUE);
+      }
+    }
+
+    if (!empty($referral)) {
+      //Check Referral Exist
+      $filter = array(
+        'referral' => $referral
+      );
+
+      $this->db->select('id');
+      $check_referral = $this->db->get_where('ms_member', $filter);
+      if ($check_referral->num_rows() > 0) {
+        $parent_id_member = $check_referral->row()->id;
+
+        if ($first_time_buyer) {
+          $this->calculate_point($id_member, 5, TRUE);
+          $this->calculate_point($parent_id_member, 5, TRUE);
+        }
+      }
+    }
+    //End Revert Point
+    
     //Return Stock
     $filter = array(
       'id_order' => $id_order
