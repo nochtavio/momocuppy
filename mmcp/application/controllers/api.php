@@ -432,7 +432,7 @@ class api extends CI_Controller {
     $this->load->model('dashboard/model_member', '', TRUE);
 
     $referral = random_string('alnum', 7);
-    while ($this->model_member->check_referral($referral)->num_rows() > 0) {
+    while ($this->model_member->check_referral(0, $referral)->num_rows() > 0) {
       $referral = random_string('alnum', 7);
     }
     return $referral;
