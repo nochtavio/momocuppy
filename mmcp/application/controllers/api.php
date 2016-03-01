@@ -1095,38 +1095,50 @@ class api extends CI_Controller {
     $this->load->model('dashboard/model_voucher', '', TRUE);
 
     //Filter
-    $voucher_code = ($this->input->post('voucher_code', TRUE)) ? $this->input->post('voucher_code', TRUE) : 0;
+    $voucher_code = ($this->input->post('voucher_code', TRUE)) ? $this->input->post('voucher_code', TRUE) : '';
     //End Filter
-    $query = $this->model_voucher->get_object(0, "", $voucher_code);
-    $totalrow = $query->num_rows();
-    if ($totalrow > 0) {
-      if ($query->row()->expired_date != null) {
-        $date_now = strtotime(date('Y-m-d'));
-        $date_expired = strtotime(date_format(date_create($query->row()->expired_date), 'Y-m-d'));
-        if ($date_expired > $date_now) {
+    
+    if($voucher_code == ''){
+      $data['result'] = "f";
+      $data['message'] = "Voucher is empty!";
+    }else{
+      $query = $this->model_voucher->get_object(0, "", $voucher_code);
+      $totalrow = $query->num_rows();
+      if ($totalrow > 0) {
+        if ($query->row()->expired_date != null) {
+          $date_now = strtotime(date('Y-m-d'));
+          $date_expired = strtotime(date_format(date_create($query->row()->expired_date), 'Y-m-d'));
+          if ($date_expired > $date_now) {
+            $result = $query->result();
+            $data['result'] = "s";
+            $session_data = array(
+              'voucher_code' => $voucher_code,
+              'discount' => $query->row()->discount
+            );
+            $this->session->set_userdata($session_data);
+            $data['message'] = "Voucher is applied!";
+            $data['content'] = $result;
+          } else {
+            $data['result'] = "f";
+            $data['message'] = "Voucher is expired!";
+          }
+        } else {
           $result = $query->result();
+          $session_data = array(
+            'voucher_code' => $voucher_code,
+            'discount' => $query->row()->discount
+          );
+          $this->session->set_userdata($session_data);
           $data['result'] = "s";
           $data['message'] = "Voucher is applied!";
           $data['content'] = $result;
-        } else {
-          $data['result'] = "f";
-          $data['message'] = "Voucher is expired!";
         }
       } else {
-        $result = $query->result();
-        $session_data = array(
-          'voucher_code' => $voucher_code,
-          'discount' => $query->row()->discount
-        );
-        $this->session->set_userdata($session_data);
-        $data['result'] = "s";
-        $data['message'] = "Voucher is applied!";
-        $data['content'] = $result;
+        $data['result'] = "f";
+        $data['message'] = "Voucher is not exist!";
       }
-    } else {
-      $data['result'] = "f";
-      $data['message'] = "Voucher is not exist!";
     }
+    
     $this->output
       ->set_content_type('application/json')
       ->set_output(json_encode($data));
@@ -1150,12 +1162,15 @@ class api extends CI_Controller {
 
     //Filter
     $id_member = $this->get_id_member();
-    $referral = ($this->input->post('referral', TRUE)) ? $this->input->post('referral', TRUE) : 0;
+    $referral = ($this->input->post('referral', TRUE)) ? $this->input->post('referral', TRUE) : '';
     //End Filter
     
     if(!$id_member){
       $data['result'] = "f";
       $data['message'] = "You must login first!";
+    }else if($referral == ''){
+      $data['result'] = "f";
+      $data['message'] = "Referral Code is empty!";
     }else{
       $query_first_time_buyer = $this->model_member->check_first_time_buyer($id_member)->num_rows();
       if ($query_first_time_buyer <= 0) {
